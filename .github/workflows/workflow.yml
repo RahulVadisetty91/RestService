@@ -25,11 +25,15 @@ jobs:
 
     - name: Build with Gradle
       run: gradle build
-
-    # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-    # the publishing section of your build.gradle
-    - name: Publish to GitHub Packages
-      run: gradle publish
-      env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+  stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run pull request stats
+        uses: RahulVadisetty91/RestService@develop/pipeline
+        with:
+          token: ${{ secrets.ADD_A_PERSONAL_ACCESS_TOKEN }}
+          period: 7
+          charts: true
+          disable-links: true
+          sort-by: 'COMMENTS'
