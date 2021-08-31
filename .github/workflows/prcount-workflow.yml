@@ -1,19 +1,20 @@
-on: [push]
+#on: [push]
 
-jobs:
-  build:
+#jobs:
+#  build:
 
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      packages: write
 
-    steps:
-      - uses: actions/checkout@v2
-      # Get the reviews count by state kind.
-      - uses: github-actions-tools/gh-reviews-count@v0.0.1
-        id: reviewsCount
-      - run: echo "The approved reviews count is ${REVIEWS}"
-        if: success() && steps.reviewsCount.outputs.approved
-        env:
-          REVIEWS: ${{ steps.reviewsCount.outputs.approved }}
+#    steps:
+#      - uses: actions/checkout@v2
+#      # Get the reviews count by state kind.
+#      - uses: github-actions-tools/gh-reviews-count@v0.0.1
+#        id: reviewsCount
+#      - run: echo "The approved reviews count is ${REVIEWS}"
+#        if: success() && steps.reviewsCount.outputs.approved
+#        env:
+#          REVIEWS: ${{ steps.reviewsCount.outputs.approved }}
+#
