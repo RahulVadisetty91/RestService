@@ -19,6 +19,13 @@ jobs:
         run: |
           $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
           $output.data.open_issues
+      - name: Generate the badge SVG image
+        uses: emibcn/badge-action@v1
+        with:
+          label: 'Test coverage'
+          status: ${{ steps.get-request.outputs.output.data.open_issues }}
+          color: 'blue,555,daf'
+          path: Open_PR.svg
 
 #jobs:
 #  webrequest_test:
