@@ -10,12 +10,12 @@ jobs:
         id: get-request
         uses: actions/checkout@master
         with:
-          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
+          url: https://api.github.com/repos/RahulVadisetty91/RestService
           method: GET
       - name: get-request output
         shell: pwsh
         run: |
-          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output = '${{ steps.get-request.outputs }}' | ConvertFrom-Json
           $output
 
 
