@@ -4,19 +4,39 @@ name: Open PR Count
 jobs:
   webrequest_test:
     runs-on: ubuntu-latest
-    name: Fetch Pull details
+    name: Test Open PR requests
     steps:
+      - name: Checkout
+        uses: actions/checkout@master
       - name: GET request
         id: get-request
-        uses: actions/checkout@master
+        uses: satak/webrequest-action@master
         with:
-          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
+          url: https://my-json-server.typicode.com/typicode/demo/posts
           method: GET
       - name: get-request output
         shell: pwsh
         run: |
           $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
-          $output.data
+          $output.data[0].id -eq 1
+
+
+#jobs:
+#  webrequest_test:
+#    runs-on: ubuntu-latest
+#    name: Fetch Pull details
+#    steps:
+#      - name: GET request
+#        id: get-request
+#        uses: actions/checkout@master
+#        with:
+#          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
+#          method: GET
+#      - name: get-request output
+#        shell: pwsh
+#        run: |
+#          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+#          $output.data
 
 
 
