@@ -25,3 +25,8 @@ jobs:
 
     - name: Build with Gradle
       run: gradle build
+    - uses: actions/checkout@master
+      id: get_open_pr_count
+      with:
+          route: GET /repos/RahulVadisetty91/RestService
+    - run: "echo latest release: '${{ fromJson(steps.get_open_pr_count.outputs.data).open_issues }}'"
