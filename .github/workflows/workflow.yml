@@ -4,13 +4,13 @@ name: Open PR Count
 jobs:
   webrequest_test:
     runs-on: ubuntu-latest
-    name: Test POST and GET web requests
+    name: Fetch Pull details
     steps:
       - name: GET request
         id: get-request
         uses: actions/checkout@master
         with:
-          url: https://api.github.com/repos/RahulVadisetty91/RestService
+          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
           method: GET
       - name: get-request output
         shell: pwsh
