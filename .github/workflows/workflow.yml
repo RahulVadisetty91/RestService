@@ -15,8 +15,7 @@ jobs:
       - name: get-request output
         shell: pwsh
         run: |
-          $output = '${{ steps.get-request.outputs }}' | ConvertFrom-Json
-          $output
+          $output = '${{ steps.get-request.outputs }}' 
 
 
 
