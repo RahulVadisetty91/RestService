@@ -8,15 +8,15 @@ jobs:
     steps:
       - name: GET request
         id: get-request
-        uses: satak/webrequest-action@master
+        uses: actions/checkout@master
         with:
-          url: https://my-json-server.typicode.com/typicode/demo/posts
+          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
           method: GET
       - name: get-request output
         shell: pwsh
         run: |
-          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
-          $output.data[0].id -eq 1
+          $output = '${{ steps.get-request.outputs }}' | ConvertFrom-Json
+          $output
 
 
 
