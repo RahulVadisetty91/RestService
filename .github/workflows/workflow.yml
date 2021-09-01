@@ -12,12 +12,13 @@ jobs:
         id: get-request
         uses: satak/webrequest-action@master
         with:
-          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
+          url: https://api.github.com/repos/RahulVadisetty91/RestService
           method: GET
       - name: get-request output
         shell: pwsh
         run: |
           $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output.data.open_issues
 
 #jobs:
 #  webrequest_test:
