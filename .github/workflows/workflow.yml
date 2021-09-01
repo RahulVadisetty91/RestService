@@ -10,7 +10,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - run: "gradle clean build"
       - name: "Get Open PR Count of ${{ github.repository }}"
         uses: ./
         id: get_latest_release
