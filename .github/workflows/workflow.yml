@@ -29,4 +29,4 @@ jobs:
       id: get_open_pr_count
       with:
           route: GET /repos/RahulVadisetty91/RestService
-    - run: "echo latest release: '${{ fromJson(steps.get_open_pr_count.outputs.data).open_issues }}'"
+    - run: "echo latest release: '${{ fromJson(steps.get_open_pr_count.outputs.result).open_issues }}'"
