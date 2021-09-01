@@ -1,20 +1,35 @@
-# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
-
+on: [push]
 name: Open PR Count
 
-on: [push]
-
 jobs:
-  build:
-
+  webrequest_test:
     runs-on: ubuntu-latest
+    name: Test POST and GET web requests
     steps:
-      - uses: actions/checkout@master
-      - name: "Get latest release of ${{ github.repository }}"
-        uses: actions/checkout@master
+      - name: GET request
+        id: get-request
+        uses: satak/webrequest-action@master
         with:
           url: https://my-json-server.typicode.com/typicode/demo/posts
           method: GET
-      - run: $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
-          Write-Host "Time from output $($output.time) statusCode $($output.statusCode) data $($output.data)"
+      - name: get-request output
+        shell: pwsh
+        run: |
+          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output.data[0].id -eq 1
+
+
+
+#jobs:
+#  build:
+
+#    runs-on: ubuntu-latest
+#    steps:
+##     - uses: actions/checkout@master
+#      - name: "Get latest release of ${{ github.repository }}"
+#        uses: actions/checkout@master
+#       with:
+#          url: https://my-json-server.typicode.com/typicode/demo/posts
+#          method: GET
+#      - run: $output = '${{ steps.webhook.outputs.output }}' | ConvertFrom-Json
+#          Write-Host "Time from output $($output.time) statusCode $($output.statusCode) data $($output.data)"
