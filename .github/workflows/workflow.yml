@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: "Get latest release of ${{ github.repository }}"
-        #uses: ./
+        uses: ./
         #id: get_latest_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
