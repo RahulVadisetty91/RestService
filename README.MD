@@ -1,5 +1,5 @@
 
 ![Build Status](https://github.com/RahulVadisetty91/RestService/actions/workflows/build.yml/badge.svg?branch=develop/pipeline)
 
-![Open PR Count](https://github.com/RahulVadisetty91/RestService/master/Open_PR.svg?branch=develop/pipeline)
+<img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr-raw/RahulVadisetty91/RestService">
 
