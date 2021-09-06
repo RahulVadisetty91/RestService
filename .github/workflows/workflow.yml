@@ -5,7 +5,7 @@ jobs:
   logLatestRelease:
     runs-on: ubuntu-latest
     steps:
-      - uses: action/checkout@master
+      - uses: actions/checkout@master
         id: get_latest_release
         with:
           route: GET /repos/{owner}/{repo}/releases/latest
