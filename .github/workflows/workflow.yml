@@ -6,9 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Test Open PR requests
     steps:
-      - run: "echo Fetching PR Count"
-      - name: "Get Open PR Count of ${{ github.repository }}"
-        uses: actions/checkout@master
+      - uses: actions/checkout@master
+      - name: "Get latest release of ${{ github.repository }}"
+        uses: ./
         id: get_latest_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -16,4 +16,4 @@ jobs:
           route: GET /repos/{owner}/{repo}/releases/latest
           owner: RahulVadisetty91
           repo: RestService
-      - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).open_issues }}'"
+      - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}'"
