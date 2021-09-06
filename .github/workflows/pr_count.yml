@@ -9,7 +9,7 @@ jobs:
         uses: actions/checkout@master
       - name: GET request
         id: get-request
-        uses: RahulVadisetty91/RestService@v2
+        uses: RahulVadisetty91/RestService@master
         with:
           url: https://api.github.com/repos/RahulVadisetty91/RestService
           method: GET
