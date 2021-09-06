@@ -9,7 +9,7 @@ jobs:
       - run: echo “Running “PR Open Count Job”
       - name: PR Open Count Fetch
         uses: actions/checkout@master
-      - run: echo echo “ The workflow is now ready to test your code on the runner."
+      - run: echo echo " The workflow is now ready to test your code on the runner."
       - name: "Get latest release of ${{ github.repository }}"
         uses: actions/checkout@master
         id: get_latest_release
