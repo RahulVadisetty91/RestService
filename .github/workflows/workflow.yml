@@ -2,15 +2,20 @@ on: [push]
 name: Open PR Count
 
 jobs:
-  logLatestRelease:
+  webrequest_test:
     runs-on: ubuntu-latest
+    name: Test Open PR requests
     steps:
-      - uses: actions/checkout@master
-        id: get_latest_release
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: GET request
+        id: get-request
+        uses: satak/webrequest-action@master
         with:
-          route: GET /repos/{owner}/{repo}/pulls
-          owner: RahulVadisetty91
-          repo: RestService
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data }}'"
+          url: https://api.github.com/repos/RahulVadisetty91/RestService
+          method: GET
+      - name: get-request output
+        shell: pwsh
+        run: |
+          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output.data.open_issues
