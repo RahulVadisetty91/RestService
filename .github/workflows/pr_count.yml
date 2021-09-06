@@ -1,0 +1,24 @@
+on: [push]
+name: Open PR Count
+
+jobs:
+  webrequest_test:
+    runs-on: ubuntu-latest
+    name: Test Open PR requests
+    steps:
+    - name: Build with Gradle
+      id: get_open_pr_count
+      with:
+          route: GET /repos/RahulVadisetty91/RestService
+    - run: "echo latest release: '${{ fromJson(steps.get_open_pr_count.outputs.result).open_issues }}'"
+    - uses: actions/checkout@master
+    - name: "Get Open PR Count of ${{ github.repository }}"
+      uses: ./
+      id: get_latest_release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        route: GET /repos/{owner}/{repo}/releases/latest
+        owner: RahulVadisetty91
+        repo: RestService
+    - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).open_issues }}'"
