@@ -2,21 +2,15 @@ on: [push]
 name: Open PR Count
 
 jobs:
-  webrequest_test:
+  logLatestRelease:
     runs-on: ubuntu-latest
-    name: Test Open PR requests
     steps:
-      - run: echo “Running “PR Open Count Job”
-      - name: PR Open Count Fetch
-        uses: actions/checkout@master
-      - run: echo echo " The workflow is now ready to test your code on the runner."
-      - name: "Get latest release of ${{ github.repository }}"
-        uses: actions/checkout@master
+      - uses: action/checkout@master
         id: get_latest_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           route: GET /repos/{owner}/{repo}/releases/latest
           owner: RahulVadisetty91
           repo: RestService
-      - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}'"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
