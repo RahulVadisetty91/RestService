@@ -1,5 +1,5 @@
 on: [push]
-name: Open PR Count
+name: Job PR Count
 
 jobs:
   webrequest_test:
