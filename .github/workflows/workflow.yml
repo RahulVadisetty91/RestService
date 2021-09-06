@@ -16,4 +16,6 @@ jobs:
           method: GET
       - name: get-request output
         shell: pwsh
-        run: "echo latest release: '${{ fromJson(steps.get-request.outputs.data).open_issues }}'"
+        run: |
+          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output.data.open_issues
