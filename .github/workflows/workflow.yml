@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@master
         id: get_latest_release
         with:
-          route: GET /repos/{owner}/{repo}/releases/latest
+          route: GET /repos/{owner}/{repo}/pulls
           owner: RahulVadisetty91
           repo: RestService
         env:
