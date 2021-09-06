@@ -18,4 +18,4 @@ jobs:
         shell: pwsh
         run: |
           $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
-          $output.data[0]
+          $output.data[0].open_issues
