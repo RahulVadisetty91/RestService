@@ -10,10 +10,10 @@ jobs:
         uses: actions/checkout@master
       - name: GET request
         id: get-request
-        uses: satak/webrequest-action@master
+        uses: actions/checkout@master
         with:
-          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
+          url: https://api.github.com/repos/RahulVadisetty91/RestService
           method: GET
       - name: get-request output
         shell: pwsh
-      - run: "echo latest release: '${{ fromJson(steps.get-request.outputs.data).open_issues }}'"
+        run: "echo latest release: '${{ fromJson(steps.get-request.outputs.data).open_issues }}'"
