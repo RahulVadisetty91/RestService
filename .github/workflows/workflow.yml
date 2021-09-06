@@ -10,12 +10,12 @@ jobs:
         uses: actions/checkout@master
       - name: GET request
         id: get-request
-        uses: RahulVadisetty91/RestService@master
+        uses: satak/webrequest-action@master
         with:
-          url: https://api.github.com/repos/RahulVadisetty91/RestService
+          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
           method: GET
       - name: get-request output
         shell: pwsh
         run: |
           $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
-          $output.data.open_issues
+          $output.data[0]
