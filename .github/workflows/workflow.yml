@@ -7,7 +7,7 @@ jobs:
     name: Test Open PR requests
     steps:
       - name: "Get Open PR Count of ${{ github.repository }}"
-        uses: ./
+        uses: actions/checkout@master
         id: get_latest_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
