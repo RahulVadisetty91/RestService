@@ -6,19 +6,16 @@ jobs:
     runs-on: ubuntu-latest
     name: Test Open PR requests
     steps:
-    - name: Build with Gradle
-      id: get_open_pr_count
-      with:
-          route: GET /repos/RahulVadisetty91/RestService
-    - run: "echo latest release: '${{ fromJson(steps.get_open_pr_count.outputs.result).open_issues }}'"
-    - uses: actions/checkout@master
-    - name: "Get Open PR Count of ${{ github.repository }}"
-      uses: ./
-      id: get_latest_release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        route: GET /repos/{owner}/{repo}/releases/latest
-        owner: RahulVadisetty91
-        repo: RestService
-    - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).open_issues }}'"
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: GET request
+        id: get-request
+        uses: satak/webrequest-action@master
+        with:
+          url: https://api.github.com/repos/RahulVadisetty91/RestService
+          method: GET
+      - name: get-request output
+        shell: pwsh
+        run: |
+          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output.data.open_issues
