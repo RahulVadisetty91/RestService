@@ -8,7 +8,7 @@ jobs:
     steps:
       - run: "echo Fetching PR Count"
       - name: "Get Open PR Count of ${{ github.repository }}"
-        uses: checkout/@master
+        uses: actions/checkout@master
         id: get_latest_release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
