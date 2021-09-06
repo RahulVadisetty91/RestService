@@ -1,35 +1,35 @@
 on: [push]
 name: Open PR Count
 
-jobs:
-  open_pr_count:
-    runs-on: ubuntu-latest
-    name: Test Open PR requests
-    steps:
-      - name: "Get Open PR Count of ${{ github.repository }}"
-        uses: actions/checkout@master
-        id: get_latest_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          route: GET /repos/{owner}/{repo}/releases/latest
-          owner: RahulVadisetty91
-          repo: RestService
-      - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).open_issues }}'"
-
 #jobs:
-#  webrequest_test:
+#  open_pr_count:
 #    runs-on: ubuntu-latest
-#    name: Fetch Pull details
-#    steps:
-#      - name: GET request
-#        id: get-request
+#    name: Test Open PR requests
+#   steps:
+#      - name: "Get Open PR Count of ${{ github.repository }}"
 #        uses: actions/checkout@master
+#        id: get_latest_release
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #        with:
-#          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
-#          method: GET
-#      - name: get-request output
-#        shell: pwsh
-#        run: |
-#          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
-#          $output.data
+#          route: GET /repos/{owner}/{repo}/releases/latest
+#          owner: RahulVadisetty91
+#          repo: RestService
+#      - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).open_issues }}'"
+
+jobs:
+  webrequest_test:
+    runs-on: ubuntu-latest
+    name: Fetch Pull details
+    steps:
+      - name: GET request
+        id: get-request
+        uses: actions/checkout@master
+        with:
+          url: https://api.github.com/repos/RahulVadisetty91/RestService/pulls
+          method: GET
+      - name: get-request output
+        shell: pwsh
+        run: |
+          $output = '${{ steps.get-request.outputs.output }}' | ConvertFrom-Json
+          $output.data
