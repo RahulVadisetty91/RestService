@@ -19,10 +19,10 @@ name: Open PR Count
 #      env:
 #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #      with:
-        route: GET /repos/{owner}/{repo}/releases/latest
-        owner: RahulVadisetty91
-        repo: RestService
-    - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).open_issues }}'"
+#        route: GET /repos/{owner}/{repo}/releases/latest
+#        owner: RahulVadisetty91
+#        repo: RestService
+#    - run: "echo latest release: '${{ fromJson(steps.get_latest_release.outputs.data).open_issues }}'"
 
 #jobs:
 #  webrequest_test:
