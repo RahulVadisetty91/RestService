@@ -1,6 +1,5 @@
 on: [push]
 name: Job PR Count
-
 jobs:
   webrequest_test:
     runs-on: ubuntu-latest
