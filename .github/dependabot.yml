@@ -1,5 +1,14 @@
-version: 1
-update_configs:
-  - package_manager: "java:gradle"
+#version: 1
+#update_configs:
+#  - package_manager: "java:gradle"
+#    directory: "/"
+#    update_schedule: "daily"
+
+version: 2
+updates:
+
+  - package-ecosystem: "github-actions"
     directory: "/"
-    update_schedule: "daily"
+    schedule:
+      # Check for updates to GitHub Actions every weekday
+      interval: "daily"
