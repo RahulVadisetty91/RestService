@@ -7,7 +7,7 @@
 version: 2
 updates:
 
-  - package-ecosystem: "github-actions"
+  - package-ecosystem: "gradle"
     directory: "/"
     schedule:
       # Check for updates to GitHub Actions every weekday
