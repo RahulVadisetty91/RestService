@@ -1,0 +1,10 @@
+on:
+  schedule:
+    - cron: "*/20 * * * *"
+    - name: Update GitHub Profile README
+      uses: RahulVadisetty91/RestService@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        header: "Hey, I'm Tilu! 👋"
+        subhead: "Currently a student in Singapore, passionate about creating all-things-tech to improve society."
