@@ -3,6 +3,8 @@
 
 <img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr-raw/RahulVadisetty91/RestService?branch=develop/pipeline">
 
+<img alt="GitHub pull requests" src="./PR.svg">
+
 Default: |
   ${header}
       
