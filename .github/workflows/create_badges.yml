@@ -11,7 +11,7 @@ jobs:
       id: coverage
       run: |
         # Generates a GitHub Workflow output named `lines`
-        export COVERAGE=`curl -H Authorization: ${{ secrets.GITHUB_TOKEN }}
+        export COVERAGE=`curl -H Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}
   -H Accept: application/vnd.github.v3+json -s  https://api.github.com/repos/RahulVadisetty91/RestService/pulls | jq length`
         echo "##[set-output name=lines;]${COVERAGE}"
 
