@@ -1,25 +1,28 @@
-import org.junit.jupiter.api.Test;
+package com.example.restservice;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class GitPipelineControllerTest {
 
-	@LocalServerPort
-	private int port;
-
 	@Autowired
-	private TestRestTemplate restTemplate;
+	private WebApplicationContext webApplicationContext;
+
+	private MockMvc mockMvc;
+
+	@Before
+	public void setup() {
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+	}
 
 	@Test
-	public void greetingShouldReturnDefaultMessage() throws Exception {
-		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/gitPipeline",
-				String.class)).contains("Hello, World");
+	public void testEmployee() throws Exception {
+		mockMvc.perform(get("/getPipeline")).andExpect(status().isOk())
+				.andExpect(content().contentType("application/json;charset=UTF-8"));
+
 	}
 }
