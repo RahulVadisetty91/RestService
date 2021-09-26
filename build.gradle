@@ -17,6 +17,16 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
+plugins {
+    id 'jacoco'
+}
+
+jacocoTestReport {
+    reports {
+        csv.enabled true
+    }
+}
+
 test {
 	useJUnitPlatform()
 }
