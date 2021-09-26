@@ -19,8 +19,8 @@ jobs:
 
         export COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=is:open%20is:pr%20repo:RahulVadisetty91/RestService%20label:dependencies | jq .total_count`
         echo "${COUNT}"
-        export DEPENDENCIES=`${COUNT} > 0 ? ${COUNT} : "up to date"`
-        export DEPENDENCIES_COLOR=`${COUNT} > 0 ? "red" : "green"`
+        export DEPENDENCIES=`[ ${COUNT} -gt 0 ] && echo ${COUNT} || echo "up to date"`
+        export DEPENDENCIES_COLOR=`[ ${COUNT} -gt 0 ] && echo "red" || echo "green"`
         echo "${DEPENDENCIES}"
         echo "${DEPENDENCIES_COLOR}"
         echo "##[set-output name=depends;]${DEPENDENCIES}"
