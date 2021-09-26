@@ -53,7 +53,7 @@ jobs:
         DEPENDENCIES: 0
         BADGE_PATH: .github/badges/test-badge.svg
         DEPENDS_BADGE_PATH: .github/badges/depend-badge.svg
-        CC_BADGE_PATH: .github/badges/temp-code-coverage.svg
+        CC_BADGE_PATH: .github/badges/jacoco-code-coverage.svg
 
     # Use the output from the `coverage` step
     - name: Generate the badge SVG image
@@ -70,7 +70,7 @@ jobs:
       uses: emibcn/badge-action@v1
       id: badgeJJ
       with:
-        label: 'Code Coverage'
+        label: 'JACOCO Code Coverage'
         status: ${{ steps.coverage.outputs.codeCoverage }}
         color: 'blue,555,daf'
         path: ${{ steps.coverage.outputs.jjBadgePath }}
