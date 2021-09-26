@@ -10,6 +10,19 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         
+    - name: Run Tests
+      run: ./gradlew test
+
+    - name: Run Test Coverage
+      run: ./gradlew jacocoTestReport
+
+    - name: Generate JaCoCo Badge
+      id: jacoco
+      uses: cicirello/jacoco-badge-generator@v2
+      with:
+          generate-branches-badge: true
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+          
     - name: Generate a coverage value
       id: coverage
       run: |
@@ -26,15 +39,21 @@ jobs:
         echo "##[set-output name=depends;]${DEPENDENCIES}"
         echo "##[set-output name=dependscolor;]${DEPENDENCIES_COLOR}"
         
+        echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
+        echo "##[set-output name=codeCoverage;]${{ steps.jacoco.outputs.coverage }}"
+        
         # Create the directory where badges will be saved, if needed
         mkdir -p "${BADGE_PATH%/*}"
+        mkdir -p "${CC_BADGE_PATH%/*}"
         echo "##[set-output name=path;]${BADGE_PATH}"
         echo "##[set-output name=depspath;]${DEPENDS_BADGE_PATH}"
+        echo "##[set-output name=jjBadgePath;]${CC_BADGE_PATH}"
       env:
         COVERAGE: 53.5%
         DEPENDENCIES: 0
         BADGE_PATH: .github/badges/test-badge.svg
         DEPENDS_BADGE_PATH: .github/badges/depend-badge.svg
+        CC_BADGE_PATH: .github/badges/temp-code-coverage.svg
 
     # Use the output from the `coverage` step
     - name: Generate the badge SVG image
@@ -45,7 +64,17 @@ jobs:
         status: ${{ steps.coverage.outputs.lines }}
         color: 'blue,555,daf'
         path: ${{ steps.coverage.outputs.path }}
-
+        
+    # Use the output from the 'jacoco' step
+    - name: Generate the Code Coverage badge SVG image
+      uses: emibcn/badge-action@v1
+      id: badgeJJ
+      with:
+        label: 'Code Coverage'
+        status: ${{ steps.coverage.outputs.codeCoverage }}
+        color: 'blue,555,daf'
+        path: ${{ steps.coverage.outputs.jjBadgePath }}
+ 
     - name: Generate the badge SVG image
       uses: emibcn/badge-action@v1
       id: deps
@@ -69,6 +98,13 @@ jobs:
         path: ${{ steps.coverage.outputs.depspath }}
         if-no-files-found: error
         
+    - name: Upload jacoco badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.coverage.outputs.jjBadgePath }}
+        if-no-files-found: error
+  
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -77,11 +113,13 @@ jobs:
       env:
         BADGE: ${{ steps.coverage.outputs.path }}
         DEPSBADGE: ${{ steps.coverage.outputs.depspath }}
+        CODECOVERAGEBADGE: ${{ steps.coverage.outputs.jjBadgePath }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add "${BADGE}"
         git add "${DEPSBADGE}"
+        git add "${CODECOVERAGEBADGE}"
         git commit -m "Add/Update badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
