@@ -14,7 +14,7 @@ jobs:
       id: coverage
       run: |
         # Generates a GitHub Workflow output named `lines`
-        export COVERAGE=`curl -H "Authorization: Bearer ${token}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/pulls | jq length`
+        export COVERAGE=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/pulls | jq length`
         echo "##[set-output name=lines;]${COVERAGE}"
 
         # Create the directory where badges will be saved, if needed
