@@ -4,3 +4,4 @@
 <img alt="GitHub pull requests" src=".github/badges/test-badge.svg">
 
 <img alt="Dependencies" src=".github/badges/depend-badge.svg">
+<img alt="Code Coverage" src=".github/badges/code-coverage.svg">
