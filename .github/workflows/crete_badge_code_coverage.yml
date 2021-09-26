@@ -12,14 +12,18 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         
-    - name: Build with Gradle
-      run: ./gradlew build
+    - name: Run Tests
+      run: ./gradlew test
+
+    - name: Run Test Coverage
+      run: ./gradlew jacocoTestReport
 
     - name: Generate JaCoCo Badge
-      id: jacoco
-      uses: cicirello/jacoco-badge-generator@v2.0.1
+      uses: cicirello/jacoco-badge-generator@v2
       with:
-         jacoco-csv-file: build/reports/jacoco/jacoco.csv
+          generate-branches-badge: true
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+          
     - name: Log coverage percentage
       run: |
                 echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
