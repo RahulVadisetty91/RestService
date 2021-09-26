@@ -61,7 +61,7 @@ jobs:
       id: extract_branch
     - name: Commit badge
       env:
-        BADGE: ${{ steps.jacocoBadge.outputs.path }}
+        BADGE: ${{ steps.jacocoBadge.outputs.jjBadgePath }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
