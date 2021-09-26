@@ -6,12 +6,15 @@ jobs:
     name: A job to test this action
     steps:
     - uses: actions/checkout@v1
-
+    - uses: fregante/setup-git-token@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
     - name: Generate a coverage value
       id: coverage
       run: |
         # Generates a GitHub Workflow output named `lines`
-        export COVERAGE=`curl -H Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}
+        export COVERAGE=`curl -H Authorization: Bearer ${token}
   -H Accept: application/vnd.github.v3+json -s  https://api.github.com/repos/RahulVadisetty91/RestService/pulls | jq length`
         echo "##[set-output name=lines;]${COVERAGE}"
 
