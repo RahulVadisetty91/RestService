@@ -45,8 +45,8 @@ jobs:
       id: deps
       with:
         label: 'dependencies'
-        status: ${{ steps.coverage.outputs.depends }}
-        color: 'blue,555,daf'
+        status: ${{ steps.coverage.outputs.depends }} > 0 ? ${{ steps.coverage.outputs.depends }}:"up to date";
+        color: 'green'
         path: ${{ steps.coverage.outputs.depspath }}
         
     - name: Upload badge as artifact
