@@ -1,21 +1,25 @@
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get; 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content; 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import com.example.controller.GitPipelineController;
+import org.junit.jupiter.api.Test;
 
-    @RunWith(SpringRunner.class)
-    @WebMvcTest(GitPipelineController.class)
-    public class GitPipelineControllerTest {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 
-        @Autowired
-        private MockMvc mockMvc;
+import static org.assertj.core.api.Assertions.assertThat;
 
-        @Test
-        public void testSayHelloWorld() throws Exception {
-            this.mockMvc.perform(get("/gitPipeline").accept(MediaType.parseMediaType("application/json;charset=UTF-8")))
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType("application/json"));
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+public class GitPipelineControllerTest {
 
-        }
+	@LocalServerPort
+	private int port;
 
-    }
+	@Autowired
+	private TestRestTemplate restTemplate;
+
+	@Test
+	public void greetingShouldReturnDefaultMessage() throws Exception {
+		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/gitPipeline",
+				String.class)).contains("Hello, World");
+	}
+}
