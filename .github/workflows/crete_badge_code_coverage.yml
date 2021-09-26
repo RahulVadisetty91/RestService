@@ -24,8 +24,52 @@ jobs:
       with:
           generate-branches-badge: true
           jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+      
           
     - name: Log coverage percentage
+      id: jacocoBadge
       run: |
                 echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
-                echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
+                echo "##[set-output name=codeCoverage;]${{ steps.jacoco.outputs.coverage }}"
+                echo "CC = ${{ steps.jacocoBadge.outputs.codeCoverage }}"
+                # Create the directory where badges will be saved, if needed
+                mkdir -p "${BADGE_PATH%/*}"
+                echo "##[set-output name=jjBadgePath;]${BADGE_PATH}"
+      env:
+        COVERAGE: 0%
+        BADGE_PATH: .github/badges/code-coverage.svg
+        
+    # Use the output from the 'jacoco' step
+    - name: Generate the Code Coverage badge SVG image
+      uses: emibcn/badge-action@v1
+      id: badgeJJ
+      with:
+        label: 'Code Coverage'
+        status: ${{ steps.jacocoBadge.outputs.codeCoverage }}
+        color: 'blue,555,daf'
+        path: ${{ steps.jacocoBadge.outputs.jjBadgePath }}
+        
+    - name: Upload jacoco badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.jacocoBadge.outputs.path }}
+        if-no-files-found: error
+
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Commit badge
+      env:
+        BADGE: ${{ steps.jacocoBadge.outputs.path }}
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add "${BADGE}"
+        git commit -m "Add/Update badge"
+    - name: Push badge commit
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ steps.extract_branch.outputs.branch }}
