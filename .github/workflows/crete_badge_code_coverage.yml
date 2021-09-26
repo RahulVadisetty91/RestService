@@ -31,7 +31,6 @@ jobs:
       run: |
                 echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
                 echo "##[set-output name=codeCoverage;]${{ steps.jacoco.outputs.coverage }}"
-                echo "CC = ${{ steps.jacocoBadge.outputs.codeCoverage }}"
                 # Create the directory where badges will be saved, if needed
                 mkdir -p "${BADGE_PATH%/*}"
                 echo "##[set-output name=jjBadgePath;]${BADGE_PATH}"
@@ -53,7 +52,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: badge
-        path: ${{ steps.jacocoBadge.outputs.path }}
+        path: ${{ steps.jacocoBadge.outputs.jjBadgePath }}
         if-no-files-found: error
 
     - name: Extract branch name
