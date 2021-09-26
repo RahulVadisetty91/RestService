@@ -14,7 +14,6 @@ public class RestServiceApplicationTests {
 	
 	@Test
 	public void contextLoads() {
-		System.out.println(controller.healthCheck());
+		System.out.println("Response from Controller: " + controller.healthCheck());
 	}
-
 }
