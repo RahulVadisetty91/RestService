@@ -1,6 +1,4 @@
-on:
-  push:
-    branches: [ master ]
+on: [push]
 
 jobs:
   test:
@@ -11,62 +9,71 @@ jobs:
     - uses: fregante/setup-git-token@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Run Tests
-      run: ./gradlew test
-
-    - name: Run Test Coverage
-      run: ./gradlew jacocoTestReport
-
-    - name: Generate JaCoCo Badge
-      id: jacoco
-      uses: cicirello/jacoco-badge-generator@v2
-      with:
-          generate-branches-badge: true
-          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
-      
-          
-    - name: Log coverage percentage
-      id: jacocoBadge
+         
+    - name: Generate a issues count
+      id: issues
       run: |
-                echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
-                echo "##[set-output name=codeCoverage;]${{ steps.jacoco.outputs.coverage }}"
-                # Create the directory where badges will be saved, if needed
-                mkdir -p "${BADGE_PATH%/*}"
-                echo "##[set-output name=jjBadgePath;]${BADGE_PATH}"
-      env:
-        COVERAGE: 0%
-        BADGE_PATH: .github/badges/code-coverage.svg
+        # Generates a GitHub Workflow output named `issuesCnt`
+        export ISSUES_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/issues | jq length`
+        echo "##[set-output name=issuesCnt;]${ISSUES_COUNT}"
+
+        export DEPENDENCIES=`[ ${ISSUES_COUNT} -gt 0 ] && echo "${ISSUES_COUNT} issues" || echo "issues"`
+        export DEPENDENCIES_COLOR=`[ ${ISSUES_COUNT} -gt 0 ] && echo "red" || echo "green"`
+        echo "${DEPENDENCIES}"
+        echo "${DEPENDENCIES_COLOR}"
+        echo "##[set-output name=depends;]${DEPENDENCIES}"
+        echo "##[set-output name=dependscolor;]${DEPENDENCIES_COLOR}"
         
-    # Use the output from the 'jacoco' step
-    - name: Generate the Code Coverage badge SVG image
+        # Create the directory where badges will be saved, if needed
+        mkdir -p "${ISSUE_BADGE_PATH%/*}"
+        echo "##[set-output name=issueBadgePath;]${ISSUE_BADGE_PATH}"
+      env:
+        DEPENDENCIES: 0
+        ISSUE_BADGE_PATH: .github/badges/issues.svg
+
+    # Use the output from the `issues` step
+    - name: Generate the badge SVG image
       uses: emibcn/badge-action@v1
-      id: badgeJJ
+      id: badge
       with:
-        label: 'Code Coverage'
-        status: ${{ steps.jacocoBadge.outputs.codeCoverage }}
+        label: 'Open Issues'
+        status: ${{ steps.issues.outputs.issuesCnt }}
         color: 'blue,555,daf'
-        path: ${{ steps.jacocoBadge.outputs.jjBadgePath }}
+        path: ${{ steps.issues.outputs.path }}
+            
+    - name: Upload badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.issues.outputs.path }}
+        if-no-files-found: error
+        
+    - name: Upload badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.coverage.outputs.depspath }}
+        if-no-files-found: error
         
     - name: Upload jacoco badge as artifact
       uses: actions/upload-artifact@v2
       with:
         name: badge
-        path: ${{ steps.jacocoBadge.outputs.jjBadgePath }}
+        path: ${{ steps.coverage.outputs.jjBadgePath }}
         if-no-files-found: error
-
+  
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
     - name: Commit badge
       env:
-        BADGE: ${{ steps.jacocoBadge.outputs.jjBadgePath }}
+        CODECOVERAGEBADGE: ${{ steps.issues.outputs.issueBadgePath }}
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add "${BADGE}"
-        git commit -m "Add/Update badge"
+        git add "${CODECOVERAGEBADGE}"
+        git commit -m "Add/Update issue badge"
     - name: Push badge commit
       uses: ad-m/github-push-action@master
       with:
