@@ -5,3 +5,4 @@
 
 <img alt="Dependencies" src=".github/badges/depend-badge.svg">
 <img alt="Code Coverage" src=".github/badges/jacoco-code-coverage.svg">
+<img alt="Issues" src=".github/badges/issues.svg">
