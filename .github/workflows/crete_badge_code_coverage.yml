@@ -24,7 +24,7 @@ jobs:
         echo "##[set-output name=depends;]${DEPENDENCIES}"
         echo "##[set-output name=dependscolor;]${DEPENDENCIES_COLOR}"
         
-        # Create the directory where badges will be saved, if needed
+        # Create the directory where issue badge will be saved, if needed
         mkdir -p "${ISSUE_BADGE_PATH%/*}"
         echo "##[set-output name=issueBadgePath;]${ISSUE_BADGE_PATH}"
       env:
