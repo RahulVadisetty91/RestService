@@ -39,29 +39,15 @@ jobs:
         label: 'Open Issues'
         status: ${{ steps.issues.outputs.issuesCnt }}
         color: 'blue,555,daf'
-        path: ${{ steps.issues.outputs.path }}
+        path: ${{ steps.issues.outputs.issueBadgePath }}
             
     - name: Upload badge as artifact
       uses: actions/upload-artifact@v2
       with:
         name: badge
-        path: ${{ steps.issues.outputs.path }}
+        path: ${{ steps.issues.outputs.issueBadgePath }}
         if-no-files-found: error
         
-    - name: Upload badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ steps.coverage.outputs.depspath }}
-        if-no-files-found: error
-        
-    - name: Upload jacoco badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ steps.coverage.outputs.jjBadgePath }}
-        if-no-files-found: error
-  
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
