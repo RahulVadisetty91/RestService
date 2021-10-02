@@ -1,0 +1,66 @@
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: A job to test this action
+    steps:
+    - uses: actions/checkout@v1
+    - uses: fregante/setup-git-token@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+         
+    - name: Generate a issues count
+      id: release
+      run: |
+        # Generates a GitHub Workflow output named `issuesCnt`
+        export RELEASE_NAME=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/releases/latest | jq .name`
+        echo "##[set-output name=releaseName;]${RELEASE_NAME}"
+        export DEPENDENCIES=`echo "Release: ${RELEASE_NAME} "`
+        export DEPENDENCIES_COLOR=`echo "green"`
+        echo "${DEPENDENCIES}"
+        echo "${DEPENDENCIES_COLOR}"
+        echo "##[set-output name=depends;]${DEPENDENCIES}"
+        echo "##[set-output name=dependscolor;]${DEPENDENCIES_COLOR}"
+        
+        # Create the directory where issue badge will be saved, if needed
+        mkdir -p "${RELEASE_PATH%/*}"
+        echo "##[set-output name=releasePath;]${RELEASE_PATH}"
+      env:
+        DEPENDENCIES: 0
+        RELEASE_PATH: .github/badges/issues.svg
+
+    # Use the output from the `issues` step
+    - name: Generate the badge SVG image
+      uses: emibcn/badge-action@v1
+      id: badge
+      with:
+        label: 'Open Issues'
+        status: ${{ steps.release.outputs.releaseName }}
+        color: 'blue,555,daf'
+        path: ${{ steps.release.outputs.releasePath }}
+            
+    - name: Upload badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.release.outputs.releasePath }}
+        if-no-files-found: error
+        
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Commit badge
+      env:
+        CODECOVERAGEBADGE: ${{ steps.release.outputs.releasePath }}
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add "${CODECOVERAGEBADGE}"
+        git commit -m "Add/Update release badge"
+    - name: Push badge commit
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ steps.extract_branch.outputs.branch }}
