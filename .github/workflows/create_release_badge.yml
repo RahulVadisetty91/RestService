@@ -28,14 +28,14 @@ jobs:
         echo "##[set-output name=releasePath;]${RELEASE_PATH}"
       env:
         DEPENDENCIES: 0
-        RELEASE_PATH: .github/badges/issues.svg
+        RELEASE_PATH: .github/badges/release.svg
 
     # Use the output from the `issues` step
     - name: Generate the badge SVG image
       uses: emibcn/badge-action@v1
       id: badge
       with:
-        label: 'Open Issues'
+        label: 'Latest Release'
         status: ${{ steps.release.outputs.releaseName }}
         color: 'blue,555,daf'
         path: ${{ steps.release.outputs.releasePath }}
