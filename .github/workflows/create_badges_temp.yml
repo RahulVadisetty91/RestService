@@ -53,7 +53,7 @@ jobs:
         echo "##[set-output name=depspath;]${DEPENDS_BADGE_PATH}"
         echo "##[set-output name=jjBadgePath;]${CC_BADGE_PATH}"
       env:
-        BADGE_PATH: .github/badges/test-badge-temp.svg
+        BADGE_PATH: .github/badges/open-pr-count-temp.svg
         DEPENDS_BADGE_PATH: .github/badges/depend-badge-temp.svg
         CC_BADGE_PATH: .github/badges/jacoco-code-coverage-temp.svg
 
