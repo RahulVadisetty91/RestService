@@ -18,12 +18,15 @@ jobs:
         
     - name: Run Tests
       run: ./gradlew test
+      if: ${{ false }}
 
     - name: Run Test Coverage
       run: ./gradlew jacocoTestReport
+      if: ${{ false }}
 
     - name: Generate JaCoCo Badge
       id: jacoco
+      if: ${{ false }}
       uses: cicirello/jacoco-badge-generator@v2
       with:
           generate-branches-badge: true
@@ -64,6 +67,7 @@ jobs:
         mkdir -p "${{ env.DEPENDS_BADGE_PATH }}%/*"
         
     - name: Generate a coverage
+      if: ${{ false }}
       id: code_coverage
       run: |
         echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
@@ -100,6 +104,7 @@ jobs:
         
     # Use the output from the 'jacoco' step
     - name: Generate the Code Coverage badge SVG image
+      if: ${{ false }}
       uses: emibcn/badge-action@v1
       id: badgeJJ
       with:
@@ -125,27 +130,6 @@ jobs:
         status: ${{ steps.release.outputs.releaseName }}
         color: 'blue,555,daf'
         path: ${{ env.RELEASE_PATH }}
-        
-    - name: Upload badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.BADGE_PATH }}
-        if-no-files-found: error
-        
-    - name: Upload badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.DEPENDS_BADGE_PATH }}
-        if-no-files-found: error
-        
-    - name: Upload jacoco badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.CC_BADGE_PATH }}
-        if-no-files-found: error
   
     - name: Extract branch name
       shell: bash
