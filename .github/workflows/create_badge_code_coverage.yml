@@ -14,7 +14,7 @@ jobs:
       id: issues
       run: |
         # Generates a GitHub Workflow output named `issuesCnt`
-        export dateWeek = "date -v-7d '+%Y-%m-%d'"
+        export dateWeek="date -v-7d '+%Y-%m-%d'"
         echo "Date:--- ${dateWeek}"
         export ISSUES_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  "https://api.github.com/repos/RahulVadisetty91/RestService/issues?q=created:>=2021-09-27" | jq length`
         echo "##[set-output name=issuesCnt;]${ISSUES_COUNT}"
