@@ -141,7 +141,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add "${{ env.BADGE_PATH }}"
         git add "${{ env.DEPENDS_BADGE_PATH }}"
-        git add "${{ env.CC_BADGE_PATH }}"
+        //git add "${{ env.CC_BADGE_PATH }}"
         git add "${{ env.RELEASE_PATH }}"
         git commit -m "Add/Update badges"
     - name: Push badge commit
