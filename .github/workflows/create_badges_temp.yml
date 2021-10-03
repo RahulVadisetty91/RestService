@@ -130,7 +130,36 @@ jobs:
         status: ${{ steps.release.outputs.releaseName }}
         color: 'blue,555,daf'
         path: ${{ env.RELEASE_PATH }}
-  
+       
+    - name: Upload pr count badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ env.BADGE_PATH }}
+        if-no-files-found: error
+
+    - name: Upload dependices badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ env.DEPENDS_BADGE_PATH }}
+        if-no-files-found: error
+
+    - name: Upload jacoco badge as artifact
+      if: ${{ false }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ env.CC_BADGE_PATH }}
+        if-no-files-found: error
+        
+    - name: Upload release badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ env.RELEASE_PATH }}
+        if-no-files-found: error
+        
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
