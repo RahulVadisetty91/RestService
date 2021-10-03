@@ -3,6 +3,10 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+        BADGE_PATH: .github/badges/open-pr-count-temp.svg
+        DEPENDS_BADGE_PATH: .github/badges/depend-badge-temp.svg
+        CC_BADGE_PATH: .github/badges/jacoco-code-coverage-temp.svg
     name: A job to test this action
     steps:
     - uses: actions/checkout@v1
@@ -49,14 +53,10 @@ jobs:
         # Create the directory where badges will be saved, if needed
         mkdir -p "${BADGE_PATH%/*}"
         mkdir -p "${CC_BADGE_PATH%/*}"
-        echo "##[set-output name=path;]${BADGE_PATH}"
+        # echo "##[set-output name=path;]${BADGE_PATH}"
         echo "##[set-output name=depspath;]${DEPENDS_BADGE_PATH}"
         echo "##[set-output name=jjBadgePath;]${CC_BADGE_PATH}"
-      env:
-        BADGE_PATH: .github/badges/open-pr-count-temp.svg
-        DEPENDS_BADGE_PATH: .github/badges/depend-badge-temp.svg
-        CC_BADGE_PATH: .github/badges/jacoco-code-coverage-temp.svg
-
+      
     - name: Get latest release details
       id: release
       run: |
@@ -148,7 +148,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add "${BADGE}"
+        git add "${{ env.BADGE }}"
         git add "${DEPSBADGE}"
         git add "${CODECOVERAGEBADGE}"
         git add "${RELEASE}"
