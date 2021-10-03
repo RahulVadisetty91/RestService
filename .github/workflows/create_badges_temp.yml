@@ -51,7 +51,7 @@ jobs:
         echo "##[set-output name=codeCoverage;]${{ steps.jacoco.outputs.coverage }}"
         
         # Create the directory where badges will be saved, if needed
-        mkdir -p "${{ env.BADGE_PATH%/*}}"
+        mkdir -p "${{ env.BADGE_PATH }}%/*"
         mkdir -p "${CC_BADGE_PATH%/*}"
         # echo "##[set-output name=path;]${BADGE_PATH}"
         echo "##[set-output name=depspath;]${DEPENDS_BADGE_PATH}"
