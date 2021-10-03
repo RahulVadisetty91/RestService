@@ -1,0 +1,160 @@
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: A job to test this action
+    steps:
+    - uses: actions/checkout@v1
+    - uses: fregante/setup-git-token@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Run Tests
+      run: ./gradlew test
+
+    - name: Run Test Coverage
+      run: ./gradlew jacocoTestReport
+
+    - name: Generate JaCoCo Badge
+      id: jacoco
+      uses: cicirello/jacoco-badge-generator@v2
+      with:
+          generate-branches-badge: true
+          jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
+          
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"  
+      
+    - name: Generate a PR OPEN COUNT
+      id: open_pr_count
+      run: |
+        # Generates a GitHub Workflow output named `lines`
+        export PR_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}+is:pr+created:%3E%3D${{ steps.date.outputs.date }} | jq '.items | length'`
+        echo "##[set-output name=prCount;]${PR_COUNT}"
+
+        export COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=is:open%20is:pr%20repo:${{ github.repository }}%20label:dependencies | jq .total_count`
+        echo "${COUNT}"
+        export DEPENDENCIES=`[ ${COUNT} -gt 0 ] && echo "${COUNT} out of date" || echo "up to date"`
+        export DEPENDENCIES_COLOR=`[ ${COUNT} -gt 0 ] && echo "red" || echo "green"`
+        echo "${DEPENDENCIES}"
+        echo "${DEPENDENCIES_COLOR}"
+        echo "##[set-output name=depends;]${DEPENDENCIES}"
+        echo "##[set-output name=dependscolor;]${DEPENDENCIES_COLOR}"
+        
+        echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
+        echo "##[set-output name=codeCoverage;]${{ steps.jacoco.outputs.coverage }}"
+        
+        # Create the directory where badges will be saved, if needed
+        mkdir -p "${BADGE_PATH%/*}"
+        mkdir -p "${CC_BADGE_PATH%/*}"
+        echo "##[set-output name=path;]${BADGE_PATH}"
+        echo "##[set-output name=depspath;]${DEPENDS_BADGE_PATH}"
+        echo "##[set-output name=jjBadgePath;]${CC_BADGE_PATH}"
+      env:
+        BADGE_PATH: .github/badges/test-badge-temp.svg
+        DEPENDS_BADGE_PATH: .github/badges/depend-badge-temp.svg
+        CC_BADGE_PATH: .github/badges/jacoco-code-coverage-temp.svg
+
+    - name: Get latest release details
+      id: release
+      run: |
+        # Generates a GitHub Workflow output named `releaseName`
+        export RELEASE_NAME=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/${{ github.repository }}/releases/latest | jq .name`
+        echo "##[set-output name=releaseName;]${RELEASE_NAME}"
+        export RELEASE=`echo "Release: ${RELEASE_NAME} "`
+        export RELEASE_COLOR=`echo "green"`
+        echo "${RELEASE}"
+        echo "${RELEASE_COLOR}"
+        echo "##[set-output name=depends;]${RELEASE}"
+        echo "##[set-output name=dependscolor;]${RELEASE_COLOR}"
+        
+        # Create the directory where issue badge will be saved, if needed
+        mkdir -p "${RELEASE_PATH%/*}"
+        echo "##[set-output name=releasePath;]${RELEASE_PATH}"
+      env:
+        RELEASE_PATH: .github/badges/release-temp.svg
+        
+    # Use the output from the `open_pr_count` step
+    - name: Generate the Open PR count badge SVG image
+      uses: emibcn/badge-action@v1
+      id: badge
+      with:
+        label: 'Open Pull Requests'
+        status: ${{ steps.open_pr_count.outputs.prCount }}
+        color: 'blue,555,daf'
+        path: ${{ steps.open_pr_count.outputs.path }}
+        
+    # Use the output from the 'jacoco' step
+    - name: Generate the Code Coverage badge SVG image
+      uses: emibcn/badge-action@v1
+      id: badgeJJ
+      with:
+        label: 'JACOCO Code Coverage'
+        status: ${{ steps.open_pr_count.outputs.codeCoverage }}
+        color: 'blue,555,daf'
+        path: ${{ steps.open_pr_count.outputs.jjBadgePath }}
+ 
+    - name: Generate the badge SVG image
+      uses: emibcn/badge-action@v1
+      id: deps
+      with:
+        label: 'dependencies'
+        status: ${{ steps.open_pr_count.outputs.depends }}
+        color: ${{ steps.open_pr_count.outputs.dependscolor }}
+        path: ${{ steps.open_pr_count.outputs.depspath }}
+    
+    - name: Generate release badge SVG image
+      uses: emibcn/badge-action@v1
+      id: releaseBadge
+      with:
+        label: 'Latest Release'
+        status: ${{ steps.release.outputs.releaseName }}
+        color: 'blue,555,daf'
+        path: ${{ steps.release.outputs.releasePath }}
+        
+    - name: Upload badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.open_pr_count.outputs.path }}
+        if-no-files-found: error
+        
+    - name: Upload badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.open_pr_count.outputs.depspath }}
+        if-no-files-found: error
+        
+    - name: Upload jacoco badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ steps.open_pr_count.outputs.jjBadgePath }}
+        if-no-files-found: error
+  
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Commit badge
+      env:
+        BADGE: ${{ steps.open_pr_count.outputs.path }}
+        DEPSBADGE: ${{ steps.open_pr_count.outputs.depspath }}
+        CODECOVERAGEBADGE: ${{ steps.open_pr_count.outputs.jjBadgePath }}
+        RELEASE: ${{ steps.release.outputs.releasePath }}
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add "${BADGE}"
+        git add "${DEPSBADGE}"
+        git add "${CODECOVERAGEBADGE}"
+        git add "${RELEASE}"
+        git commit -m "Add/Update badges"
+    - name: Push badge commit
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ steps.extract_branch.outputs.branch }}
