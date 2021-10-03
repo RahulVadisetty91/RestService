@@ -35,7 +35,7 @@ jobs:
     - name: Get current date
       id: date
       run: 
-       echo "::set-output name=date::$(date -v -7d +%Y-%m-%d)"
+       echo "::set-output name=date::$(date -d "7 days ago" +%Y-%m-%d)"
       
     - name: Generate a PR OPEN COUNT
       id: open_pr_count
