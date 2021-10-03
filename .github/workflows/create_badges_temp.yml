@@ -86,7 +86,7 @@ jobs:
         echo "##[set-output name=dependscolor;]${RELEASE_COLOR}"
         
         # Create the directory where issue badge will be saved, if needed
-        mkdir -p "${{ env.CC_BADGE_PATH }}%/*"
+        mkdir -p "${{ env.RELEASE_PATH }}%/*"
         
     # Use the output from the `open_pr_count` step
     - name: Generate the Open PR count badge SVG image
@@ -157,7 +157,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add "${{ env.BADGE }}"
         git add "${{ env.DEPENDS_BADGE_PATH }}"
-        git add "${{ env.CC_BADGE_PATH}"
+        git add "${{ env.CC_BADGE_PATH }}"
         git add "${{ env.RELEASE_PATH }}"
         git commit -m "Add/Update badges"
     - name: Push badge commit
