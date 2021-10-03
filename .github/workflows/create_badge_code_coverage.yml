@@ -16,7 +16,7 @@ jobs:
         # Generates a GitHub Workflow output named `issuesCnt`
         export dateWeek="date -v-7d '+%Y-%m-%d'"
         echo "Date:--- ${dateWeek}"
-        export ISSUES_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  "https://api.github.com/repos/RahulVadisetty91/RestService/issues?q=created:>=2021-09-27" | jq length`
+        export ISSUES_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/issues --data-urlencode "q=created:>`date -v-7d '+%Y-%m-%d'`" | jq length`
         echo "##[set-output name=issuesCnt;]${ISSUES_COUNT}"
         export DEPENDENCIES=`[ ${ISSUES_COUNT} -gt 0 ] && echo "${ISSUES_COUNT} issues" || echo "issues"`
         export DEPENDENCIES_COLOR=`[ ${ISSUES_COUNT} -gt 0 ] && echo "red" || echo "green"`
