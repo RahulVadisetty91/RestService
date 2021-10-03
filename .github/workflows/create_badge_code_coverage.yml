@@ -14,7 +14,7 @@ jobs:
       id: issues
       run: |
         # Generates a GitHub Workflow output named `issuesCnt`
-        export ISSUES_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/issues?q=status:open+q=type:issue | jq length`
+        export ISSUES_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/issues?q=type:issue | jq length`
         echo "##[set-output name=issuesCnt;]${ISSUES_COUNT}"
         export DEPENDENCIES=`[ ${ISSUES_COUNT} -gt 0 ] && echo "${ISSUES_COUNT} issues" || echo "issues"`
         export DEPENDENCIES_COLOR=`[ ${ISSUES_COUNT} -gt 0 ] && echo "red" || echo "green"`
