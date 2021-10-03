@@ -14,7 +14,7 @@ jobs:
       id: issues
       run: |
         # Generates a GitHub Workflow output named `issuesCnt`
-        echo "::set-output name=dateStr::$(date('Y-m-d', strtotime('-7 days')))"
+        echo "##[set-output name=dateStr;]$(date('Y-m-d', strtotime('-7 days')))"
         echo "${dateStr}"
         export ISSUES_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/RahulVadisetty91/RestService/issues?q=type:issue%20status:closed | jq 'map(select(.pull_request == null)) | length'`
         echo "##[set-output name=issuesCnt;]${ISSUES_COUNT}"
