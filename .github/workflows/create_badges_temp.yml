@@ -84,7 +84,7 @@ jobs:
         label: 'Open Pull Requests'
         status: ${{ steps.open_pr_count.outputs.prCount }}
         color: 'blue,555,daf'
-        path: ${{ steps.open_pr_count.outputs.path }}
+        path: ${BADGE_PATH}
         
     # Use the output from the 'jacoco' step
     - name: Generate the Code Coverage badge SVG image
@@ -118,7 +118,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: badge
-        path: ${{ steps.open_pr_count.outputs.path }}
+        path: ${BADGE_PATH}
         if-no-files-found: error
         
     - name: Upload badge as artifact
@@ -141,7 +141,7 @@ jobs:
       id: extract_branch
     - name: Commit badge
       env:
-        BADGE: ${{ steps.open_pr_count.outputs.path }}
+        BADGE: ${BADGE_PATH}
         DEPSBADGE: ${{ steps.open_pr_count.outputs.depspath }}
         CODECOVERAGEBADGE: ${{ steps.open_pr_count.outputs.jjBadgePath }}
         RELEASE: ${{ steps.release.outputs.releasePath }}
