@@ -80,7 +80,7 @@ jobs:
       id: release
       run: |
         # Generates a GitHub Workflow output named `releaseName`
-        export RELEASE_NAME=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/${{ github.repository }}/releases/latest | jq .name`
+        export RELEASE_NAME=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r .name`
         echo "##[set-output name=releaseName;]${RELEASE_NAME}"
         export RELEASE=`echo "Release: ${RELEASE_NAME} "`
         export RELEASE_COLOR=`echo "green"`
