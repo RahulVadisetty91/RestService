@@ -171,7 +171,7 @@ jobs:
         git add "${{ env.DEPENDS_BADGE_PATH }}"
         # git add "${{ env.CC_BADGE_PATH }}"
         git add "${{ env.RELEASE_PATH }}"
-        git commit -m "Add/Update badges"
+        git commit -m "Add/Update badges" || true
     - name: Push badge commit
       uses: ad-m/github-push-action@master
       with:
