@@ -32,7 +32,7 @@ jobs:
           generate-branches-badge: true
           jacoco-csv-file: build/reports/jacoco/test/jacocoTestReport.csv
           
-    - name: Get current date
+    - name: Get 7 days past date
       id: date
       run: 
        echo "::set-output name=date::$(date -d "7 days ago" +%Y-%m-%d)"
