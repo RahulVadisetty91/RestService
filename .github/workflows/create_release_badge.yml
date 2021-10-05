@@ -10,7 +10,7 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
          
-    - name: Generate a ISSUES count
+    - name: Generate a Release name
       id: release
       run: |
         # Generates a GitHub Workflow output named `releaseName`
