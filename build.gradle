@@ -18,14 +18,23 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
+test {
+   useJUnitPlatform()
+   finalizedBy jacocoTestReport
+}
+
+jacoco {
+toolVersion = "0.8.3"
+reportsDir = file("$buildDir/reports/tests")
+}
+
 jacocoTestReport {
+    executionData fileTree("${buildDir}/jacoco")
     reports {
-        xml.enabled true
-        html.enabled true
-        csv.enabled true
+        html.required = false
+        xml.required = false
+        csv.required = true
     }
 }
 
-test {
-	useJUnitPlatform()
-}
+tasks.jacocoTestReport.dependsOn(tasks.test)
