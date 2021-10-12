@@ -3,10 +3,10 @@
 
 <img alt="GitHub pull requests" src=".github/badges/test-badge.svg">
 
-<img alt="Dependencies" src=".github/badges/depend-badge-temp.svg">
-<img alt="Code Coverage" src=".github/badges/jacoco-code-coverage-temp.svg">
+<img alt="Dependencies" src=".github/badges/depend-badge.svg">
+<img alt="Code Coverage" src=".github/badges/jacoco-code-coverage.svg">
 <a href="https://github.com/RahulVadisetty91/RestService/issues">
-  <img alt="Issues" src=".github/badges/issues-temp.svg"></a>
+  <img alt="Issues" src=".github/badges/issues.svg"></a>
 <br>
 <a href="https://github.com/RahulVadisetty91/RestService/releases">
-  <img alt="Issues" src=".github/badges/release-temp.svg"></a>
+  <img alt="Issues" src=".github/badges/release.svg"></a>
