@@ -42,7 +42,7 @@ jobs:
 
         echo "Open PR Count = ${PR_COUNT}"
        
-        # Create the directory where badges will be saved, if needed
+        # Create the directory where badge will be saved, if needed
         mkdir -p "${{ env.BADGE_PATH }}%/*"
        
     - name: Generate a Vera code Severity Count
@@ -54,7 +54,7 @@ jobs:
 
         echo "Vere Code Count = ${VV_COUNT}"
        
-        # Create the directory where badges will be saved, if needed
+        # Create the directory where vera code badge will be saved, if needed
         mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
         
     - name: Generate a dependencies count
