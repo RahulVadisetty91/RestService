@@ -67,8 +67,9 @@ jobs:
       if: ${{ true }}
       id: code_coverage
       run: |
-        echo "coverage = ${{ steps.jacoco.outputs.coverage }}"
-        echo "##[set-output name=codeCoverage;]ceiling(${{ steps.jacoco.outputs.coverage }}/500)"
+        export COVERAGE_PERCENTAGE = 'ceiling(${{ steps.jacoco.outputs.coverage }}/500)';
+        echo "coverage = ${COVERAGE_PERCENTAGE}"
+        echo "##[set-output name=codeCoverage;]${COVERAGE_PERCENTAGE}"
         # Create the directory where badges will be saved, if needed
         mkdir -p "${{ env.CC_BADGE_PATH }}%/*"
         
