@@ -8,7 +8,7 @@ jobs:
         DEPENDS_BADGE_PATH: .github/badges/depend-badge.svg
         CC_BADGE_PATH: .github/badges/jacoco-code-coverage.svg
         RELEASE_PATH: .github/badges/release.svg
-        
+        VV_BADGE_PATH: .github/badges/vv-code-count.svg
     name: A job to test this action
     steps:
     - uses: actions/checkout@v1
@@ -37,7 +37,7 @@ jobs:
       id: open_pr_count
       run: |
         # Generates a GitHub Workflow output named `lines`
-        export PR_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") ] | group_by(.Sev)[] | {Key: .[0].Sev, length: length} | .Key + ": " + (.length|tostring)'`
+        export PR_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:pr+created:%3E%3D${{ steps.date.outputs.date }} | jq '.items | length'`
         echo "##[set-output name=prCount;]${PR_COUNT}"
 
         echo "Open PR Count = ${PR_COUNT}"
@@ -45,7 +45,18 @@ jobs:
         # Create the directory where badges will be saved, if needed
         mkdir -p "${{ env.BADGE_PATH }}%/*"
        
-    
+    - name: Generate a Vera code Severity Count
+      id: open_vvcode_count
+      run: |
+        # Generates a GitHub Workflow output named `vvCount`
+        export VV_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") ] | group_by(.Sev)[] | {Key: "\(.[0].Sev):\(length)"} ] | map(.Key) | join(",")'`
+        echo "##[set-output name=vvCount;]${VV_COUNT}"
+
+        echo "Vere Code Count = ${VV_COUNT}"
+       
+        # Create the directory where badges will be saved, if needed
+        mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
+        
     - name: Generate a dependencies count
       id: dependencies_count
       run: |
@@ -98,6 +109,16 @@ jobs:
         color: 'blue,555,daf'
         path: ${{ env.BADGE_PATH }}
         
+    # Use the output from the `open_vvcode_count` step
+    - name: Generate the Vera code count badge SVG image
+      uses: emibcn/badge-action@v1
+      id: vvbadge
+      with:
+        label: 'Vera Code Count'
+        status: ${{ steps.open_vvcode_count.outputs.vvCount }}
+        color: 'blue,555,daf'
+        path: ${{ env.VV_BADGE_PATH }}
+
     # Use the output from the 'jacoco' step
     - name: Generate the Code Coverage badge SVG image
       if: ${{ false }}
@@ -133,7 +154,14 @@ jobs:
         name: badge
         path: ${{ env.BADGE_PATH }}
         if-no-files-found: error
-
+        
+    - name: Upload vera code count badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ env.VV_BADGE_PATH }}
+        if-no-files-found: error
+        
     - name: Upload dependices badge as artifact
       uses: actions/upload-artifact@v2
       with:
@@ -165,6 +193,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add "${{ env.BADGE_PATH }}"
+        git add "${{ env.VV_BADGE_PATH }}"
         git add "${{ env.DEPENDS_BADGE_PATH }}"
         # git add "${{ env.CC_BADGE_PATH }}"
         git add "${{ env.RELEASE_PATH }}"
