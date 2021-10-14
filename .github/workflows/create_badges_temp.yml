@@ -37,7 +37,7 @@ jobs:
       id: open_pr_count
       run: |
         # Generates a GitHub Workflow output named `lines`
-        export PR_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq '[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") ] | group_by(.Sev)[] | {Key: .[0].Sev, length: length} | .Key + ": " + (.length|tostring)'`
+        export PR_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") ] | group_by(.Sev)[] | {Key: .[0].Sev, length: length} | .Key + ": " + (.length|tostring)'`
         echo "##[set-output name=prCount;]${PR_COUNT}"
 
         echo "Open PR Count = ${PR_COUNT}"
@@ -64,7 +64,7 @@ jobs:
         mkdir -p "${{ env.DEPENDS_BADGE_PATH }}%/*"
         
     - name: Generate a coverage
-      if: ${{ true }}
+      if: ${{ false }}
       id: code_coverage
       run: |
         export COVERAGE_PERCENTAGE=`printf "%.3f" ${{ steps.jacoco.outputs.coverage }}`
@@ -100,7 +100,7 @@ jobs:
         
     # Use the output from the 'jacoco' step
     - name: Generate the Code Coverage badge SVG image
-      if: ${{ true }}
+      if: ${{ false }}
       uses: emibcn/badge-action@v1
       id: badgeJJ
       with:
@@ -142,7 +142,7 @@ jobs:
         if-no-files-found: error
 
     - name: Upload jacoco badge as artifact
-      if: ${{ true }}
+      if: ${{ false }}
       uses: actions/upload-artifact@v2
       with:
         name: badge
@@ -166,7 +166,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add "${{ env.BADGE_PATH }}"
         git add "${{ env.DEPENDS_BADGE_PATH }}"
-        git add "${{ env.CC_BADGE_PATH }}"
+        # git add "${{ env.CC_BADGE_PATH }}"
         git add "${{ env.RELEASE_PATH }}"
         git commit -m "Add/Update badges" || true
     - name: Push badge commit
