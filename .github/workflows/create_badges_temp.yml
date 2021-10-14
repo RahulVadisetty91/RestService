@@ -18,11 +18,11 @@ jobs:
         
     - name: Run Tests
       run: ./gradlew clean test jacocoTestReport
-      if: ${{ true }}
+      if: ${{ false }}
 
     - name: Generate JaCoCo Badge
       id: jacoco
-      if: ${{ true }}
+      if: ${{ false }}
       uses: cicirello/jacoco-badge-generator@v2
       with:
           generate-branches-badge: true
