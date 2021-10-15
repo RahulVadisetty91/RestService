@@ -32,9 +32,9 @@ jacocoTestReport {
     executionData fileTree("${buildDir}/jacoco")
     group = "Reporting"
     reports {
-        html.required = false
-        xml.required = false
-        csv.required = true
+        html.enabled false
+        xml.enabled false
+        csv.enabled true
     }
     executionData(test)
 }
