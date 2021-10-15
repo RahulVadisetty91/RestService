@@ -17,7 +17,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         
     - name: Run Tests
-      run: ./gradlew clean test jacocoTestReport
+      run: ./gradlew clean test jacocoTestReport -i
       if: ${{ true }}
 
     - name: Generate JaCoCo Badge
@@ -78,7 +78,7 @@ jobs:
       if: ${{ true }}
       id: code_coverage
       run: |
-        export COVERAGE_PERCENTAGE=`printf "%.3f" ${{ steps.jacoco.outputs.coverage }}`
+        export COVERAGE_PERCENTAGE=`printf "%.3f" ${{ steps.jacoco.outputs.coverage * 100 }}`
         echo "coverage = ${COVERAGE_PERCENTAGE}"
         echo "##[set-output name=codeCoverage;]${COVERAGE_PERCENTAGE}%"
         # Create the directory where badges will be saved, if needed
