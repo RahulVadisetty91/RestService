@@ -30,11 +30,13 @@ reportsDir = file("$buildDir/reports/tests")
 
 jacocoTestReport {
     executionData fileTree("${buildDir}/jacoco")
+    group = "Reporting"
     reports {
         html.required = false
         xml.required = false
         csv.required = true
     }
+    executionData(test)
 }
 
 tasks.jacocoTestReport.dependsOn(tasks.test)
