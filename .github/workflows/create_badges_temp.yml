@@ -81,7 +81,8 @@ jobs:
           JACOCO_COVERAGE: ${{ steps.jacoco.outputs.coverage }}
       run: |
         #export COVERAGE_PERCENTAGE=`printf "%.0f" '${{ steps.jacoco.outputs.coverage }}'`
-        export COVERAGE_PERCENTAGE=`$(echo"scale=2;100/3"|bc)`
+        export COVERAGE_PERCENTAGE=`echo 
+        "scale=2;100/3"|bc`
         echo "coverage = ${COVERAGE_PERCENTAGE}"
         echo "##[set-output name=codeCoverage;]${COVERAGE_PERCENTAGE} %"
         # Create the directory where badges will be saved, if needed
