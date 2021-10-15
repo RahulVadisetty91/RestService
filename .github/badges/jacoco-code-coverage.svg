@@ -1,20 +1,20 @@
-<svg width="165.3" height="20" viewBox="0 0 1653 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JACOCO Code Coverage: %">
-  <title>JACOCO Code Coverage: %</title>
+<svg width="336.9" height="20" viewBox="0 0 3369 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="JACOCO Code Coverage: bc &lt;&lt;&lt; &apos;scale=2; awk  * 100&apos; %">
+  <title>JACOCO Code Coverage: bc &lt;&lt;&lt; &apos;scale=2; awk  * 100&apos; %</title>
   <linearGradient id="a" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
   </linearGradient>
-  <mask id="m"><rect width="1653" height="200" rx="30" fill="#FFF"/></mask>
+  <mask id="m"><rect width="3369" height="200" rx="30" fill="#FFF"/></mask>
   <g mask="url(#m)">
     <rect width="1433" height="200" fill="#555"/>
-    <rect width="220" height="200" fill="url(#x)" x="1433"/>
-    <rect width="1653" height="200" fill="url(#a)"/>
+    <rect width="1936" height="200" fill="url(#x)" x="1433"/>
+    <rect width="3369" height="200" fill="url(#a)"/>
   </g>
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="1333" fill="#000" opacity="0.25">JACOCO Code Coverage</text>
     <text x="50" y="138" textLength="1333">JACOCO Code Coverage</text>
-    <text x="1488" y="148" textLength="120" fill="#000" opacity="0.25">%</text>
-    <text x="1478" y="138" textLength="120">%</text>
+    <text x="1488" y="148" textLength="1836" fill="#000" opacity="0.25">bc &lt;&lt;&lt; &apos;scale=2; awk  * 100&apos; %</text>
+    <text x="1478" y="138" textLength="1836">bc &lt;&lt;&lt; &apos;scale=2; awk  * 100&apos; %</text>
   </g>
   
   <linearGradient id="x" x1="0%" y1="0%" x2="100%" y2="0%">
