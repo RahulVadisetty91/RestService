@@ -78,6 +78,7 @@ jobs:
       if: ${{ true }}
       id: code_coverage
       run: |
+        echo "branch coverage = ${{ steps.jacoco.outputs.branches }}"
         export COVERAGE_PERCENTAGE=`printf "%.3f" ${{ steps.jacoco.outputs.coverage  }} * 100`
         echo "coverage = ${COVERAGE_PERCENTAGE}"
         echo "##[set-output name=codeCoverage;]${COVERAGE_PERCENTAGE}%"
