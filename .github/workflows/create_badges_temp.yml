@@ -23,7 +23,7 @@ jobs:
     - name: Generate JaCoCo Badge
       id: jacoco
       if: ${{ true }}
-      uses: cicirello/jacoco-badge-generator@v2
+      uses: cicirello/jacoco-badge-generator@v2.1.0
       with:
           generate-branches-badge: true
           jacoco-csv-file: build/reports/tests/test/jacocoTestReport.csv
