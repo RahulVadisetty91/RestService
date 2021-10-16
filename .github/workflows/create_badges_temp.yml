@@ -80,7 +80,7 @@ jobs:
       env:
           JACOCO_COVERAGE: ${{ steps.jacoco.outputs.coverage }}
       run: |
-        #export COVERAGE_PERCENTAGE=`printf "%d" '${{ steps.jacoco.outputs.coverage }}'`
+        #export COVERAGE_PERCENTAGE=`printf "%.2f" '${{ steps.jacoco.outputs.coverage }}'`
         export INTERIM_COVERAGE_PERCENTAGE=`echo ${{ steps.jacoco.outputs.coverage }} \* 100 | bc -l`
         export COVERAGE_PERCENTAGE=`printf "%.0f" ${INTERIM_COVERAGE_PERCENTAGE}`
         echo "coverage = ${COVERAGE_PERCENTAGE}"
