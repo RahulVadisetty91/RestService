@@ -131,7 +131,7 @@ jobs:
       with:
         label: 'JACOCO Code Coverage'
         status: ${{ steps.code_coverage.outputs.codeCoverage }}
-        color: 'blue,555,daf'
+        color: ${{ steps.code_coverage.outputs.codeCoverage > 75 && 'green' || 'red' }}
         path: ${{ env.CC_BADGE_PATH }}
  
     - name: Generate the dependencies badge SVG image
