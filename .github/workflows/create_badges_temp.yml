@@ -123,7 +123,7 @@ jobs:
       with:
         label: 'Vera Code Count'
         status: ${{ steps.open_vvcode_count.outputs.vvCount }}
-        color: 'blue,555,daf'
+        color: ${{ steps.open_vvcode_count.outputs.vvBadgeColor }}
         path: ${{ env.VV_BADGE_PATH }}
 
     # Use the output from the 'jacoco' step
