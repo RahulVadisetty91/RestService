@@ -52,7 +52,7 @@ jobs:
         export VV_ISSUE_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") | if .Sev == "Severity 4" then .Sev="Very High" elif .Sev == "Severity 3" then .Sev="High" else "many" end ] | group_by(.Sev)[] | {Key: "\(.[0].Sev):\(length)"}] | sort_by(.Key) | reverse|  map(.Key) | join(",")'`
         export ff=`echo ${VV_ISSUE_COUNT} | grep -e [1-9]`
         export color=`$ff && echo "green" || echo "red"`
-        export VV_COUNT=`[$VV_ISSUE_COUNT=='green'] && echo "No Vulnerabilities" || echo $VV_ISSUE_COUNT`
+        export VV_COUNT=`[${VV_ISSUE_COUNT}=='green'] && echo "No Vulnerabilities" || echo $VV_ISSUE_COUNT`
         echo "##[set-output name=vvCount;]${VV_COUNT}"
         echo "##[set-output name=vvBadgeColor;]${color}"
         echo "Vere Code Count = ${VV_COUNT}"
