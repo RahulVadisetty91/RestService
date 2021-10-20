@@ -138,7 +138,7 @@ jobs:
       id: vvbadge
       with:
         label: 'Vera Code Count'
-        status: ${{ steps.format_vv_count.outputs.vvCount }}
+        status: ${{ steps.open_vvcode_count.outputs.vvCount }}
         color: ${{ steps.format_vv_count.outputs.vvBadgeColor }}
         path: ${{ env.VV_BADGE_PATH }}
 
