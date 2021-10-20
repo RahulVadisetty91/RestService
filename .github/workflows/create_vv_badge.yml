@@ -28,11 +28,9 @@ jobs:
         echo "##[set-output name=vvBadgeColor;]${color}"
         echo "Vere Code Count = ${VV_COUNT}"
         echo "Vere Code Color = ${color}"
-        if [[ $VV_ISSUE_COUNT == *"Very High"* ]] 
-        then 
-        echo "Severity-4" 
-        elif [[ $VV_ISSUE_COUNT == *"High"* ]] 
-        then 
-        echo "Severity-3" 
-        fi
+        case "${VV_COUNT}" in
+        *Very High*) echo "String1 present" ;;
+        *High*) echo "String2 present" ;;
+        *)         echo "else" ;;
+        esac
        
