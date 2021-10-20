@@ -58,7 +58,6 @@ jobs:
         echo "##[set-output name=vvBadgeColor;]${color}"
         echo "Vere Code Count = ${VV_ISSUE_COUNT}"
         echo "Vere Code Color = ${color}"
-       
         # Create the directory where vera code badge will be saved, if needed
         mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
        
