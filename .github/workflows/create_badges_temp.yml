@@ -65,11 +65,14 @@ jobs:
       id: open_vvcode_count
       run: |
         if [[ "${{ steps.format_vv_count.outputs.vvCount }}" == "" ]]; then
-          echo "##[set-output name=vvCount;]'Very High:0, High:0'"
+          echo "1.."
+          echo "::set-output name=vvCount::'Very High:0, High:0'"
         elif [[ "${{ steps.format_vv_count.outputs.vvCount }}" == *"Very High"* ]]; then
-          echo "##[set-output name=vvCount;]'${{ steps.format_vv_count.outputs.vvCount }}, High:0'"
+          echo "2.."
+          echo "::set-output name=vvCount::'${{ steps.format_vv_count.outputs.vvCount }}, High:0'" 
         elif [[ "${{ steps.format_vv_count.outputs.vvCount }}" == *"High"* ]]; then 
-            echo "##[set-output name=vvCount;]'Very High:0, ${{ steps.format_vv_count.outputs.vvCount }}'"
+          echo "3.."
+           echo "::set-output name=vvCount::'Very High:0, ${{ steps.format_vv_count.outputs.vvCount }}'" 
         fi
         echo "Vere Code Count = ${{ steps.open_vvcode_count.outputs.vvCount }}"
         
