@@ -64,8 +64,10 @@ jobs:
     - name: Format a Vera code Severity Count
       id: format_vv_count
       run: |
-        if [[ ${{ steps.open_vvcode_count.outputs.vvCount }} == *"Very High"* ]]; then
-          echo "It's there!"
+        if [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == *"Very High"* ]]; then
+          echo "Severity Very High !!"
+        elif [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == *"High"* ]]; then
+          echo "Severity High !!"
         fi
         
     - name: Generate a dependencies count
