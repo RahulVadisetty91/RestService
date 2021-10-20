@@ -25,4 +25,9 @@ jobs:
         for Item in ${VV_ARRAY} ;
         do
         echo $Item
+        if [[ "$Item" =~ .*"$Severity 4".* ]]; then
+        echo "Severity-4"
+        elif [[ "$Item" =~ .*"$Severity 3".* ]]; then
+        echo "Severity-3"
+        fi
         done
