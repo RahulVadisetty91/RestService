@@ -24,11 +24,11 @@ jobs:
         #echo "Vere Vulnerability Array = ${VV_ARRAY}"
         for Item in ${VV_ARRAY} ;
         do
-        #echo $Item
-        if [[ $Item =~ "Severity 4" ]]
+        echo $Item
+        if [[ $Item =~ "Severity 4" ]];
         then
         echo "Severity 4!"
-        elif [[ $Item =~ "Severity 3" ]]
+        elif [[ $Item =~ "Severity 3" ]];
         then
         echo "Severity 3!"
         fi
