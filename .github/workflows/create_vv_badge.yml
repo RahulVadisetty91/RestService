@@ -19,25 +19,13 @@ jobs:
     - name: Generate a Vera code Severity Count
       id: open_vvcode_count
       run: |
-        # Generates a workflow output named `vvCount`, change color to 'green' if count is empty
-        declare -a ARRAY=(`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq '.items[].title'`)
-        for i in "${ARRAY[@]}"
-        do
-        echo "$i"
-        # or do whatever with individual element of the array
-        done
-        echo "ARRAY= ${ARRAY}"
-        export VV_ARRAY=('${ARRAY}' | tr -d [:print:]")
-        #export VV_ARRAY=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[.items[] | .title ]'`
-        echo "Vere Vulnerability Array = ${VV_ARRAY}"
-        for Item in ${VV_ARRAY} ;
-        do
-        echo $Item
-        if [[ $Item =~ "Severity 4" ]];
-        then
-        echo "Severity 4!"
-        elif [[ $Item =~ "Severity 3" ]];
-        then
-        echo "Severity 3!"
-        fi
-        done
+        export VV_ISSUE_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") | if .Sev == "Severity 4" then .Sev="Very High" elif .Sev == "Severity 3" then .Sev="High" else "many" end ] | group_by(.Sev)[] | {Key: "\(.[0].Sev):\(length)"}] | sort_by(.Key) | reverse|  map(.Key) | join(",")'`
+        echo "Vere Vulnerability Count = ${VV_ISSUE_COUNT}"
+        export ff=`echo ${VV_ISSUE_COUNT} | grep -e [1-9]`
+        export color=`$ff && echo "green" || echo "red"`
+        export VV_COUNT=`$ff && echo "No Vulnerabilities" || echo $VV_ISSUE_COUNT`
+        echo "##[set-output name=vvCount;]${VV_COUNT}"
+        echo "##[set-output name=vvBadgeColor;]${color}"
+        echo "Vere Code Count = ${VV_COUNT}"
+        echo "Vere Code Color = ${color}"
+       
