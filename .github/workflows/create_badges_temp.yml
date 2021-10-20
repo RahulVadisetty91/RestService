@@ -73,7 +73,7 @@ jobs:
         else 
             echo "##[set-output name=vvCount;]'Very High:0, ${VV_ISSUE_COUNT}'"
         fi
-        echo "Vere Code Count = ${VV_COUNT}"
+        echo "Vere Code Count = ${{ steps.open_vvcode_count.outputs.vvCount }}"
         
     - name: Generate a dependencies count
       id: dependencies_count
