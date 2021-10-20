@@ -1,20 +1,20 @@
-<svg width="221.4" height="20" viewBox="0 0 2214 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vera Code Count: Very High:1,High:1">
-  <title>Vera Code Count: Very High:1,High:1</title>
+<svg width="231.3" height="20" viewBox="0 0 2313 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vera Code Count: &apos;Very High:0, High:0&apos;">
+  <title>Vera Code Count: &apos;Very High:0, High:0&apos;</title>
   <linearGradient id="a" x2="0" y2="100%">
     <stop offset="0" stop-opacity=".1" stop-color="#EEE"/>
     <stop offset="1" stop-opacity=".1"/>
   </linearGradient>
-  <mask id="m"><rect width="2214" height="200" rx="30" fill="#FFF"/></mask>
+  <mask id="m"><rect width="2313" height="200" rx="30" fill="#FFF"/></mask>
   <g mask="url(#m)">
     <rect width="1038" height="200" fill="#555"/>
-    <rect width="1176" height="200" fill="#E43" x="1038"/>
-    <rect width="2214" height="200" fill="url(#a)"/>
+    <rect width="1275" height="200" fill="#" x="1038"/>
+    <rect width="2313" height="200" fill="url(#a)"/>
   </g>
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
     <text x="60" y="148" textLength="938" fill="#000" opacity="0.25">Vera Code Count</text>
     <text x="50" y="138" textLength="938">Vera Code Count</text>
-    <text x="1093" y="148" textLength="1076" fill="#000" opacity="0.25">Very High:1,High:1</text>
-    <text x="1083" y="138" textLength="1076">Very High:1,High:1</text>
+    <text x="1093" y="148" textLength="1175" fill="#000" opacity="0.25">&apos;Very High:0, High:0&apos;</text>
+    <text x="1083" y="138" textLength="1175">&apos;Very High:0, High:0&apos;</text>
   </g>
   
 </svg>
