@@ -20,7 +20,7 @@ jobs:
       id: open_vvcode_count
       run: |
         # Generates a workflow output named `vvCount`, change color to 'green' if count is empty
-        export VV_ARRAY=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") ]'`
+        export VV_ARRAY=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[.items[] | .title ]'`
         echo "Vere Vulnerability Array = ${VV_ARRAY}"
         for Item in ${VV_ARRAY} ;
         do
