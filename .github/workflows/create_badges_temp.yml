@@ -18,11 +18,11 @@ jobs:
         
     - name: Run Tests
       run: ./gradlew clean test jacocoTestReport -i
-      if: ${{ true }}
+      if: ${{ false }}
 
     - name: Generate JaCoCo Badge
       id: jacoco
-      if: ${{ true }}
+      if: ${{ false }}
       uses: cicirello/jacoco-badge-generator@v2.1.0
       with:
           generate-branches-badge: true
@@ -51,12 +51,15 @@ jobs:
         # Generates a workflow output named `vvCount`, change color to 'green' if count is empty
         export VV_ISSUE_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") | if .Sev == "Severity 4" then .Sev="Very High" elif .Sev == "Severity 3" then .Sev="High" else "many" end ] | group_by(.Sev)[] | {Key: "\(.[0].Sev):\(length)"}] | sort_by(.Key) | reverse|  map(.Key) | join(",")'`
         echo "Vere Vulnerability Count = ${VV_ISSUE_COUNT}"
+        if [[ ${VV_ISSUE_COUNT} == *"Very High"* ]]; then
+        echo "It's there!"
+        fi
         export ff=`echo ${VV_ISSUE_COUNT} | grep -e [1-9]`
         export color=`$ff && echo "green" || echo "red"`
-        export VV_COUNT=`$ff && echo "No Vulnerabilities" || echo $VV_ISSUE_COUNT`
-        echo "##[set-output name=vvCount;]${VV_COUNT}"
+        #export VV_COUNT=`$ff && echo "No Vulnerabilities" || echo $VV_ISSUE_COUNT`
+        echo "##[set-output name=vvCount;]${VV_ISSUE_COUNT}"
         echo "##[set-output name=vvBadgeColor;]${color}"
-        echo "Vere Code Count = ${VV_COUNT}"
+        echo "Vere Code Count = ${VV_ISSUE_COUNT}"
         echo "Vere Code Color = ${color}"
        
         # Create the directory where vera code badge will be saved, if needed
@@ -80,7 +83,7 @@ jobs:
         mkdir -p "${{ env.DEPENDS_BADGE_PATH }}%/*"
         
     - name: Generate a coverage
-      if: ${{ true }}
+      if: ${{ false }}
       id: code_coverage
       env:
           JACOCO_COVERAGE: ${{ steps.jacoco.outputs.coverage }}
@@ -130,7 +133,7 @@ jobs:
 
     # Use the output from the 'jacoco' step
     - name: Generate the Code Coverage badge SVG image
-      if: ${{ true }}
+      if: ${{ false }}
       uses: emibcn/badge-action@v1
       id: badgeJJ
       with:
@@ -179,7 +182,7 @@ jobs:
         if-no-files-found: error
 
     - name: Upload jacoco badge as artifact
-      if: ${{ true }}
+      if: ${{ false }}
       uses: actions/upload-artifact@v2
       with:
         name: badge
