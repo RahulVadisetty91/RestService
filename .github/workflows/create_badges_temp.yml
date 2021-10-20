@@ -68,9 +68,7 @@ jobs:
           echo "##[set-output name=vvCount;]'Very High:0, High:0'"
         elif [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == *"Very High"* ]]; then
           echo "##[set-output name=vvCount;]'${VV_ISSUE_COUNT}, High:0'"
-        elif [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == *"High"* ]]; then
-           echo "##[set-output name=vvCount;]'${VV_ISSUE_COUNT}, High:0'"
-        else 
+        elif [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == *"High"* ]]; then 
             echo "##[set-output name=vvCount;]'Very High:0, ${VV_ISSUE_COUNT}'"
         fi
         echo "Vere Code Count = ${{ steps.format_vv_count.outputs.vvCount }}"
