@@ -65,7 +65,7 @@ jobs:
       id: format_vv_count
       run: |
         if [[ ${{ steps.open_vvcode_count.outputs.vvCount }} == *"Very High"* ]]; then
-        echo "It's there!"
+          echo "It's there!"
         fi
         
     - name: Generate a dependencies count
