@@ -28,6 +28,6 @@ jobs:
         echo "##[set-output name=vvBadgeColor;]${color}"
         echo "Vere Code Count = ${VV_COUNT}"
         echo "Vere Code Color = ${color}"
-        if [[ "${VV_ISSUE_COUNT}" == *"$Very High"* ]]; then echo 'sfsdf' fi
+        if [ "${VV_ISSUE_COUNT}" == *"$Very High"* ]; then echo 'sfsdf' fi
     
        
