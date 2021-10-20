@@ -64,14 +64,14 @@ jobs:
     - name: Format a Vera code Severity Count
       id: open_vvcode_count
       run: |
-        if [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == "" ]]; then
+        if [[ "${{ steps.format_vv_count.outputs.vvCount }}" == "" ]]; then
           echo "##[set-output name=vvCount;]'Very High:0, High:0'"
-        elif [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == *"Very High"* ]]; then
+        elif [[ "${{ steps.format_vv_count.outputs.vvCount }}" == *"Very High"* ]]; then
           echo "##[set-output name=vvCount;]'${VV_ISSUE_COUNT}, High:0'"
-        elif [[ "${{ steps.open_vvcode_count.outputs.vvCount }}" == *"High"* ]]; then 
+        elif [[ "${{ steps.format_vv_count.outputs.vvCount }}" == *"High"* ]]; then 
             echo "##[set-output name=vvCount;]'Very High:0, ${VV_ISSUE_COUNT}'"
         fi
-        echo "Vere Code Count = ${{ steps.format_vv_count.outputs.vvCount }}"
+        echo "Vere Code Count = ${{ steps.open_vvcode_count.outputs.vvCount }}"
         
     - name: Generate a dependencies count
       id: dependencies_count
