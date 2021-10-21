@@ -5,11 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
         BADGE_ROOT_PATH: .github/badges
-        BADGE_PATH: ${{ env.BADGE_ROOT_PATH }}/open-pr-count.svg
-        DEPENDS_BADGE_PATH: ${{ env.BADGE_ROOT_PATH }}/depend-badge.svg
-        CC_BADGE_PATH: ${{ env.BADGE_ROOT_PATH }}/jacoco-code-coverage.svg
-        RELEASE_PATH: ${{ env.BADGE_ROOT_PATH }}/release.svg
-        VV_BADGE_PATH: ${{ env.BADGE_ROOT_PATH }}/vv-code-count.svg
+        BADGE_PATH: open-pr-count.svg
+        DEPENDS_BADGE_PATH: depend-badge.svg
+        CC_BADGE_PATH: jacoco-code-coverage.svg
+        RELEASE_PATH: release.svg
+        VV_BADGE_PATH: vv-code-count.svg
     name: A job to test this action
     steps:
     - uses: actions/checkout@v1
@@ -44,7 +44,7 @@ jobs:
         echo "Open PR Count = ${PR_COUNT}"
        
         # Create the directory where badge will be saved, if needed
-        mkdir -p "${{ env.BADGE_PATH }}%/*"
+        mkdir -p "${{ env.BADGE_ROOT_PATH }}/${{ env.BADGE_PATH }}%/*"
        
     - name: Generate a Vera code Severity Count
       id: open_vvcode_count
@@ -63,24 +63,15 @@ jobs:
       if: ${{ false }}
       run: |
         if [[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity}} > 0 ]]; then
-          echo "1.0."
-          echo "::set-output name=veryHighSeverityCount::${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
-          echo "::set-output name=veryHighSeverityColor::red"
+           echo "::set-output name=veryHighSeverityColor::red"
         else
-          echo "1.1."
-          echo "::set-output name=veryHighSeverityCount::0"
-          echo "::set-output name=veryHighSeverityColor::green"
+           echo "::set-output name=veryHighSeverityColor::green"
         fi
        
         if [[ ${{ steps.open_vvcode_count.outputs.highSeverity}} > 0 ]]; then
-          echo "2.0.."
-          echo "::set-output name=highSeverityCount::${{ steps.open_vvcode_count.outputs.highSeverity }}"
-          echo "::set-output name=highSeverityColor::red"
-          
+           echo "::set-output name=highSeverityColor::red"
          else
-          echo "2.1.."
-          echo "::set-output name=highSeverityCount::0"
-          echo "::set-output name=highSeverityColor::green"
+           echo "::set-output name=highSeverityColor::green"
         fi 
         
     - name: Generate VV color code
@@ -92,7 +83,7 @@ jobs:
         export HColor=`[ ${{ steps.open_vvcode_count.outputs.highSeverity }} -eq 0 ] && echo "green" || echo "red"`
         echo "##[set-output name=veryHighSeverityColor;]${VHColor}"
         echo "##[set-output name=highSeverityColor;]${HColor}"
-        mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
+        mkdir -p "${{ env.BADGE_ROOT_PATH }}/${{ env.VV_BADGE_PATH }}%/*"
         
     - name: Generate a dependencies count
       id: dependencies_count
@@ -109,7 +100,7 @@ jobs:
         echo "Dependencies Count = ${COUNT}"
         
         # Create the directory where badges will be saved, if needed
-        mkdir -p "${{ env.DEPENDS_BADGE_PATH }}%/*"
+        mkdir -p "${{ env.BADGE_ROOT_PATH }}/${{ env.DEPENDS_BADGE_PATH }}%/*"
         
     - name: Generate a coverage
       if: ${{ false }}
@@ -123,7 +114,7 @@ jobs:
         echo "coverage = ${COVERAGE_PERCENTAGE}"
         echo "##[set-output name=codeCoverage;]${COVERAGE_PERCENTAGE} %"
         # Create the directory where badges will be saved, if needed
-        mkdir -p "${{ env.CC_BADGE_PATH }}%/*"
+        mkdir -p "${{ env.BADGE_ROOT_PATH }}/${{ env.CC_BADGE_PATH }}%/*"
         
     - name: Get latest release details
       id: release
@@ -138,7 +129,7 @@ jobs:
         echo "##[set-output name=dependscolor;]${RELEASE_COLOR}"
         
         # Create the directory where issue badge will be saved, if needed
-        mkdir -p "${{ env.RELEASE_PATH }}%/*"
+        mkdir -p "${{ env.BADGE_ROOT_PATH }}/${{ env.RELEASE_PATH }}%/*"
         
     # Use the output from the `open_pr_count` step
     - name: Generate the Open PR count badge SVG image
@@ -148,7 +139,7 @@ jobs:
         label: 'Open Pull Requests'
         status: ${{ steps.open_pr_count.outputs.prCount }}
         color: 'blue,555,daf'
-        path: ${{ env.BADGE_PATH }}
+        path: ${{ env.BADGE_ROOT_PATH }}/${{ env.BADGE_PATH }}
         
     # Use the output from the `open_vvcode_count` step
     - name: Generate the Vera code count badge SVG image
@@ -158,7 +149,7 @@ jobs:
         label: 'Vera Code Count'
         status: Very High:${{ steps.open_vvcode_count.outputs.veryHighSeverity }},High:${{ steps.open_vvcode_count.outputs.highSeverity }}
         color: '${{ steps.displayVVCode.outputs.veryHighSeverityColor }},${{ steps.displayVVCode.outputs.highSeverityColor }}'
-        path: ${{ env.VV_BADGE_PATH }}
+        path: ${{ env.BADGE_ROOT_PATH }}/${{ env.VV_BADGE_PATH }}
 
     # Use the output from the 'jacoco' step
     - name: Generate the Code Coverage badge SVG image
@@ -169,7 +160,7 @@ jobs:
         label: 'JACOCO Code Coverage'
         status: ${{ steps.code_coverage.outputs.codeCoverage }}
         color: ${{ steps.code_coverage.outputs.codeCoverage > 75 && 'green' || 'red' }}
-        path: ${{ env.CC_BADGE_PATH }}
+        path: ${{ env.BADGE_ROOT_PATH }}/${{ env.CC_BADGE_PATH }}
  
     - name: Generate the dependencies badge SVG image
       uses: emibcn/badge-action@v1
@@ -178,7 +169,7 @@ jobs:
         label: 'dependencies'
         status: ${{ steps.dependencies_count.outputs.depends }}
         color: ${{ steps.dependencies_count.outputs.dependscolor }}
-        path: ${{ env.DEPENDS_BADGE_PATH }}
+        path: ${{ env.BADGE_ROOT_PATH }}/${{ env.DEPENDS_BADGE_PATH }}
     
     - name: Generate release badge SVG image
       uses: emibcn/badge-action@v1
@@ -187,7 +178,7 @@ jobs:
         label: 'Latest Release'
         status: ${{ steps.release.outputs.releaseName }}
         color: 'blue,555,daf'
-        path: ${{ env.RELEASE_PATH }}
+        path: ${{ env.BADGE_ROOT_PATH }}/${{ env.RELEASE_PATH }}
        
     - name: Extract branch name
       shell: bash
