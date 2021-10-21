@@ -80,15 +80,4 @@ jobs:
         name: badge
         path: ${{ env.VV_BADGE_PATH }}
         if-no-files-found: error
-
-    - name: Commit badge
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add "${{ env.VV_BADGE_PATH }}"
-        git commit -m "Add/Update badges" || true
-    - name: Push badge commit
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ steps.extract_branch.outputs.branch }}
+        
