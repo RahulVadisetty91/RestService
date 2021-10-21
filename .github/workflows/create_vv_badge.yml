@@ -36,7 +36,7 @@ jobs:
           echo "1.."
           echo "::set-output name=veryHighSeverityCount::Very High:${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
         fi
-        echo "Formatted Very High Count = ${{ steps.formatVVBadge.outputs.veryHighSeverityCount }}"
+        echo "Formatted Very High Count = ${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }}"
         
     - name: Format a Vera code Severity Count
       id: formatHighSeverityCount
@@ -49,4 +49,4 @@ jobs:
         fi
         
         
-        echo "Formatted High Count = ${{ steps.formatVVBadge.outputs.highSeverityCount }}"   
+        echo "Formatted High Count = ${{ steps.formatHighSeverityCount.outputs.highSeverityCount }}"   
