@@ -32,11 +32,11 @@ jobs:
       id: formatVeryHighSeverityCount
       run: |
         echo "::set-output name=highSeverityCount::0"
-        if [[ -z "${{ steps.open_vvcode_count.outputs.veryHighSeverity}}" ]]; then
+        if [[ -z "${{ steps.open_vvcode_count.outputs.highSeverity}}" ]]; then
           echo " 1ewwwe "
         fi
         
-        if [[ -z ${{ steps.open_vvcode_count.outputs.veryHighSeverity}} ]]; then
+        if [[ -z ${{ steps.open_vvcode_count.outputs.highSeverity}} ]]; then
           echo "yeah"
         fi
         
