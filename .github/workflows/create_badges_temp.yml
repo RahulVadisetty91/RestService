@@ -47,35 +47,52 @@ jobs:
        
        
     - name: Generate a Vera code Severity Count
-      id: format_vv_count
-      run: |
-        # Generates a workflow output named `vvCount`, change color to 'green' if count is empty
-        export VV_ISSUE_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3E%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)") | if .Sev == "Severity 4" then .Sev="Very High" elif .Sev == "Severity 3" then .Sev="High" else "many" end ] | group_by(.Sev)[] | {Key: "\(.[0].Sev):\(length)"}] | sort_by(.Key) | reverse|  map(.Key) | join(",")'`
-        echo "Vere Vulnerability Count = ${VV_ISSUE_COUNT}"
-        export ff=`echo ${VV_ISSUE_COUNT} | grep -e [1-9]`
-        export color=`$ff && echo "green" || echo "red"`
-        export VV_COUNT=`$ff && echo '' || echo $VV_ISSUE_COUNT`
-        echo "##[set-output name=vvCount;]${VV_COUNT}"
-        echo "##[set-output name=vvBadgeColor;]${color}"
-        echo "Vere Code Count = ${VV_COUNT}"
-        echo "Vere Code Color = ${color}"
-        # Create the directory where vera code badge will be saved, if needed
-        mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
-       
-    - name: Format a Vera code Severity Count
       id: open_vvcode_count
       run: |
-        if [[ "${{ steps.format_vv_count.outputs.vvCount }}" == "" ]]; then
-          echo "1.."
-          echo "::set-output name=vvCount::Very High:0, High:0"
-        elif [[ "${{ steps.format_vv_count.outputs.vvCount }}" == *"Very High"* ]]; then
-          echo "2.."
-          echo "::set-output name=vvCount::${{ steps.format_vv_count.outputs.vvCount }}, High:0" 
-        elif [[ "${{ steps.format_vv_count.outputs.vvCount }}" == *"High"* ]]; then 
-          echo "3.."
-           echo "::set-output name=vvCount::Very High:0, ${{ steps.format_vv_count.outputs.vvCount }}" 
+        export VV_ISSUE_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3C%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)")  ] | group_by(.Sev) | map({ key: .[0].Sev, value: "\(length)"})    | from_entries]'`
+        echo "Vere Vulnerability Count = ${VV_ISSUE_COUNT}"
+        export highSeverity=`echo ${VV_ISSUE_COUNT} | jq -r '.[]."Severity 41" // 0'`
+        export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq -r '.[]."Severity 5" // 0'`
+        echo "Very High Count = ${veryHighSeverity}"
+        echo "High Count = ${highSeverity}"
+        echo "##[set-output name=veryHighSeverity;]${veryHighSeverity}"
+        echo "##[set-output name=highSeverity;]${highSeverity}"
+       
+    - name: Format a Vera code Severity Count
+      id: formatVeryHighSeverityCount
+      if: ${{ false }}
+      run: |
+        if [[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity}} > 0 ]]; then
+          echo "1.0."
+          echo "::set-output name=veryHighSeverityCount::${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
+          echo "::set-output name=veryHighSeverityColor::red"
+        else
+          echo "1.1."
+          echo "::set-output name=veryHighSeverityCount::0"
+          echo "::set-output name=veryHighSeverityColor::green"
         fi
-        echo "Vere Code Count = ${{ steps.open_vvcode_count.outputs.vvCount }}"
+       
+        if [[ ${{ steps.open_vvcode_count.outputs.highSeverity}} > 0 ]]; then
+          echo "2.0.."
+          echo "::set-output name=highSeverityCount::${{ steps.open_vvcode_count.outputs.highSeverity }}"
+          echo "::set-output name=highSeverityColor::red"
+          
+         else
+          echo "2.1.."
+          echo "::set-output name=highSeverityCount::0"
+          echo "::set-output name=highSeverityColor::green"
+        fi 
+        
+    - name: Generate VV color code
+      id: displayVVCode
+      run: |
+        echo "Formatted Very High Count = ${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
+        echo "Formatted High Count = ${{ steps.open_vvcode_count.outputs.highSeverity }}"
+        export VHColor=`[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity }} -eq 0 ] && echo "green" || echo "red"`
+        export HColor=`[ ${{ steps.open_vvcode_count.outputs.highSeverity }} -eq 0 ] && echo "green" || echo "red"`
+        echo "##[set-output name=veryHighSeverityColor;]${VHColor}"
+        echo "##[set-output name=highSeverityColor;]${HColor}"
+        mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
         
     - name: Generate a dependencies count
       id: dependencies_count
@@ -139,8 +156,8 @@ jobs:
       id: vvbadge
       with:
         label: 'Vera Code Count'
-        status: ${{ steps.open_vvcode_count.outputs.vvCount }}
-        color: ${{ steps.format_vv_count.outputs.vvBadgeColor }}
+        status: Very High:${{ steps.open_vvcode_count.outputs.veryHighSeverity }},High:${{ steps.open_vvcode_count.outputs.highSeverity }}
+        color: '${{ steps.displayVVCode.outputs.veryHighSeverityColor }},${{ steps.displayVVCode.outputs.highSeverityColor }}'
         path: ${{ env.VV_BADGE_PATH }}
 
     # Use the output from the 'jacoco' step
@@ -172,42 +189,6 @@ jobs:
         color: 'blue,555,daf'
         path: ${{ env.RELEASE_PATH }}
        
-    - name: Upload pr count badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.BADGE_PATH }}
-        if-no-files-found: error
-        
-    - name: Upload vera code count badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.VV_BADGE_PATH }}
-        if-no-files-found: error
-        
-    - name: Upload dependices badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.DEPENDS_BADGE_PATH }}
-        if-no-files-found: error
-
-    - name: Upload jacoco badge as artifact
-      if: ${{ false }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.CC_BADGE_PATH }}
-        if-no-files-found: error
-        
-    - name: Upload release badge as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: badge
-        path: ${{ env.RELEASE_PATH }}
-        if-no-files-found: error
-        
     - name: Extract branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -216,11 +197,7 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add "${{ env.BADGE_PATH }}"
-        git add "${{ env.VV_BADGE_PATH }}"
-        git add "${{ env.DEPENDS_BADGE_PATH }}"
-        git add "${{ env.CC_BADGE_PATH }}"
-        git add "${{ env.RELEASE_PATH }}"
+        git add *.svg
         git commit -m "Add/Update badges" || true
     - name: Push badge commit
       uses: ad-m/github-push-action@master
