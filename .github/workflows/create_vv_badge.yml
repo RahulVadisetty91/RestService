@@ -26,13 +26,14 @@ jobs:
         echo "Very High Count = ${veryHighSeverity}"
         echo "High Count = ${highSeverity}"
         echo "##[set-output name=veryHighSeverity;]${veryHighSeverity}"
-        echo "##[set-output name=highSeverity;]${highSeverity}"
+        echo "##[set-output name=highSeverity;]$([[ -n ${highSeverity} ]] && 0 || ${highSeverity})"
+        
         
     - name: Format a Vera code Severity Count
       id: formatVeryHighSeverityCount
       run: |
         echo "::set-output name=highSeverityCount::0"
-        echo "::set-output name=highSeverityCount::$([[ -n ${{ steps.open_vvcode_count.outputs.highSeverity }} ]] && 0 || ${{ steps.open_vvcode_count.outputs.highSeverity }})"
+        echo "::set-output name=highSeverityCount::${{ steps.open_vvcode_count.outputs.highSeverity }}"
         
         if [[ ! -z ${{ steps.open_vvcode_count.outputs.veryHighSeverity }} ]]; then
           echo "1.."
