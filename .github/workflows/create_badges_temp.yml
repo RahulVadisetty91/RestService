@@ -19,11 +19,11 @@ jobs:
         
     - name: Run Tests
       run: ./gradlew clean test jacocoTestReport -i
-      if: ${{ false }}
+      if: ${{ true }}
 
     - name: Generate JaCoCo Badge
       id: jacoco
-      if: ${{ false }}
+      if: ${{ true }}
       uses: cicirello/jacoco-badge-generator@v2.1.0
       with:
           generate-branches-badge: true
@@ -60,7 +60,6 @@ jobs:
        
     - name: Format a Vera code Severity Count
       id: formatVeryHighSeverityCount
-      if: ${{ false }}
       run: |
         if [[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity}} > 0 ]]; then
            echo "::set-output name=veryHighSeverityColor::red"
@@ -103,7 +102,7 @@ jobs:
         mkdir -p "${{ env.BADGE_ROOT_PATH }}/${{ env.DEPENDS_BADGE_PATH }}%/*"
         
     - name: Generate a coverage
-      if: ${{ false }}
+      if: ${{ true }}
       id: code_coverage
       env:
           JACOCO_COVERAGE: ${{ steps.jacoco.outputs.coverage }}
@@ -153,7 +152,7 @@ jobs:
 
     # Use the output from the 'jacoco' step
     - name: Generate the Code Coverage badge SVG image
-      if: ${{ false }}
+      if: ${{ true }}
       uses: emibcn/badge-action@v1
       id: badgeJJ
       with:
