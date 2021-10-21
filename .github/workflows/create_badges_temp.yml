@@ -137,7 +137,7 @@ jobs:
       with:
         label: 'Open Pull Requests'
         status: ${{ steps.open_pr_count.outputs.prCount }}
-        color: 'blue,555,daf'
+        color: ${{ steps.open_pr_count.outputs.prCount == 0 && 'green' || 'blue' }}
         path: ${{ env.BADGE_ROOT_PATH }}/${{ env.BADGE_PATH }}
         
     # Use the output from the `open_vvcode_count` step
