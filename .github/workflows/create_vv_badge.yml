@@ -32,7 +32,7 @@ jobs:
       id: formatVeryHighSeverityCount
       run: |
         echo "::set-output name=highSeverityCount::0"
-        if [[ "${{ steps.open_vvcode_count.outputs.veryHighSeverity}}"=="null"]]; then
+        if [[ "${{ steps.open_vvcode_count.outputs.veryHighSeverity}}"=="null" ]]; then
           echo "1.0."
           echo "::set-output name=veryHighSeverityCount::0"
           echo "::set-output name=veryHighSeverityColor::green"
