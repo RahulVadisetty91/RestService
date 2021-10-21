@@ -21,8 +21,8 @@ jobs:
       run: |
         export VV_ISSUE_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3C%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)")  ] | group_by(.Sev) | map({ key: .[0].Sev, value: "\(length)"})    | from_entries]'`
         echo "Vere Vulnerability Count = ${VV_ISSUE_COUNT}"
-        export highSeverity=`echo ${VV_ISSUE_COUNT} | jq '.[]."Severity 4"'`
-        export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq '.[]."Severity 5"'`
+        export highSeverity=`echo ${VV_ISSUE_COUNT} | jq -r '.[]."Severity 41"'`
+        export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq -r '.[]."Severity 5"'`
         echo "Very High Count = ${veryHighSeverity}"
         echo "High Count = ${highSeverity}"
         echo "##[set-output name=veryHighSeverity;]${veryHighSeverity}"
@@ -46,7 +46,11 @@ jobs:
         if [[ ! -z ${{ steps.open_vvcode_count.outputs.highSeverity }} ]]; then
           echo "2.."
           echo "::set-output name=highSeverityCount::High:${{ steps.open_vvcode_count.outputs.highSeverity }}"
-        fi
-        
-        
+        fi  
+        echo "Formatted High Count = ${{ steps.formatHighSeverityCount.outputs.highSeverityCount }}"   
+
+    - name: Display VV Code
+      id: displayVVCode
+      run: |
+        echo "Formatted Very High Count = ${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }}"
         echo "Formatted High Count = ${{ steps.formatHighSeverityCount.outputs.highSeverityCount }}"   
