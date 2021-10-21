@@ -21,7 +21,7 @@ jobs:
       run: |
         export VV_ISSUE_COUNT=`curl -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "User-Agent *" -H "Accept: application/vnd.github.v3+json" -s  https://api.github.com/search/issues?q=repo:${{ github.repository }}++is:open+is:issue+created:%3C%3D${{ steps.date.outputs.date }} | jq --raw-output '[[.items[] | .title | capture("(?<Sev>Severity [0-9]+)")  ] | group_by(.Sev)[] | {(.[0].Sev): "\(length)"}] | sort_by(.Key) | reverse'`
         echo "Vere Vulnerability Count = ${VV_ISSUE_COUNT}"
-        export highSeverity=`echo ${VV_ISSUE_COUNT} | jq '.[1]."Severity 4"'`
+        export highSeverity=`echo ${VV_ISSUE_COUNT} | jq '.[1]."Severity 4" || .[0]."Severity 4"'`
         export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq '.[0]."Severity 5"'`
         echo "Very High Count = ${veryHighSeverity}"
         echo "High Count = ${highSeverity}"
