@@ -46,7 +46,6 @@ jobs:
         # Create the directory where badge will be saved, if needed
         mkdir -p "${{ env.BADGE_PATH }}%/*"
        
-       
     - name: Generate a Vera code Severity Count
       id: open_vvcode_count
       run: |
