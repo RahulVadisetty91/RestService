@@ -25,7 +25,7 @@ jobs:
         export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq '.[]."Severity 5"'`
         echo "Very High Count = ${veryHighSeverity}"
         echo "High Count = ${highSeverity}"
-        echo "##[set-output name=veryHighSeverity;][[ ! -z ${veryHighSeverity} ]] && 100 || ${veryHighSeverity}"
+        echo "##[set-output name=veryHighSeverity;]${veryHighSeverity}"
         echo "##[set-output name=highSeverity;]${highSeverity}"
         
     - name: Format a Vera code Severity Count
