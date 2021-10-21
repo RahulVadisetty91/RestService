@@ -41,7 +41,7 @@ jobs:
           echo "::set-output name=veryHighSeverityColor::red"
         fi
        
-        if [[ -n ${{ steps.open_vvcode_count.outputs.highSeverity }} ]]; then
+        if [[ ${{ steps.open_vvcode_count.outputs.highSeverity!=null }} ]]; then
           echo "2.0.."
           echo "::set-output name=highSeverityCount::0"
           echo "::set-output name=highSeverityColor::green"
