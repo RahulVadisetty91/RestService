@@ -73,4 +73,11 @@ jobs:
         status: Very High:${{ steps.open_vvcode_count.outputs.veryHighSeverity }},High:${{ steps.open_vvcode_count.outputs.highSeverity }}
         color: '${{ steps.displayVVCode.outputs.veryHighSeverityColor }},${{ steps.displayVVCode.outputs.highSeverityColor }}'
         path: ${{ env.VV_BADGE_PATH }}
+        
+    - name: Upload vera code count badge as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: badge
+        path: ${{ env.VV_BADGE_PATH }}
+        if-no-files-found: error
 
