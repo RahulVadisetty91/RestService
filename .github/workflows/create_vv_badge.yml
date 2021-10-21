@@ -32,18 +32,13 @@ jobs:
       id: formatVeryHighSeverityCount
       run: |
         echo "::set-output name=highSeverityCount::0"
+        echo "::set-output name=highSeverityCount::[[ -n ${{ steps.open_vvcode_count.outputs.highSeverity }} ]] && 0 || ${{ steps.open_vvcode_count.outputs.highSeverity }}"
+        
         if [[ ! -z ${{ steps.open_vvcode_count.outputs.veryHighSeverity }} ]]; then
           echo "1.."
           echo "::set-output name=veryHighSeverityCount::${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
         fi
-       
-        if [[ -n ${{ steps.open_vvcode_count.outputs.highSeverity }} ]]; then
-          echo "2.0.."
-          echo "::set-output name=highSeverityCount::0"
-         else
-          echo "2.1.."
-          echo "::set-output name=highSeverityCount::${{ steps.open_vvcode_count.outputs.highSeverity }}"
-        fi  
+     
 
     - name: Display VV Code
       id: displayVVCode
