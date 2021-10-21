@@ -25,22 +25,16 @@ jobs:
         export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq -r '.[]."Severity 5"'`
         echo "Very High Count = ${veryHighSeverity}"
         echo "High Count = ${highSeverity}"
-        echo "##[set-output name=veryHighSeverity;]${veryHighSeverity}"
-        echo "##[set-output name=highSeverity;]${highSeverity}"
+        echo "##[set-output name=veryHighSeverity;]'${veryHighSeverity}'"
+        echo "##[set-output name=highSeverity;]'${highSeverity}'"
         
     - name: Format a Vera code Severity Count
       id: formatVeryHighSeverityCount
       run: |
         echo "::set-output name=highSeverityCount::0"
-        if [[ -z "${{ steps.open_vvcode_count.outputs.highSeverity}}" ]]; then
-          echo " 1ewwwe "
-        fi
         
-        if [[ -z ${{ steps.open_vvcode_count.outputs.highSeverity}} ]]; then
-          echo "yeah"
-        fi
         
-        if [[ "${{ steps.open_vvcode_count.outputs.veryHighSeverity}}"=="null" ]]; then
+        if [[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity}}=='null' ]]; then
           echo "1.0."
           echo "::set-output name=veryHighSeverityCount::0"
           echo "::set-output name=veryHighSeverityColor::green"
@@ -49,7 +43,7 @@ jobs:
           echo "::set-output name=veryHighSeverityColor::red"
         fi
        
-        if [[ "${{ steps.open_vvcode_count.outputs.highSeverity}}"=="null" ]]; then
+        if [[ ${{ steps.open_vvcode_count.outputs.highSeverity}}=='null' ]]; then
           echo "2.0.."
           echo "::set-output name=highSeverityCount::0"
           echo "::set-output name=highSeverityColor::green"
