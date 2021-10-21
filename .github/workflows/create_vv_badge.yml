@@ -35,19 +35,39 @@ jobs:
         if [[ -n ${{ steps.open_vvcode_count.outputs.veryHighSeverity }} ]]; then
           echo "1.0."
           echo "::set-output name=veryHighSeverityCount::0"
+          echo "::set-output name=veryHighSeverityColor::green"
         else
           echo "::set-output name=veryHighSeverityCount::${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
+          echo "::set-output name=veryHighSeverityColor::red"
         fi
        
         if [[ -n ${{ steps.open_vvcode_count.outputs.highSeverity }} ]]; then
           echo "2.0.."
           echo "::set-output name=highSeverityCount::0"
+          echo "::set-output name=highSeverityColor::green"
          else
           echo "2.1.."
           echo "::set-output name=highSeverityCount::${{ steps.open_vvcode_count.outputs.highSeverity }}"
+          echo "::set-output name=highSeverityColor::red"
         fi  
         
         echo "Formatted Very High Count = ${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }}"
         echo "Formatted High Count = ${{ steps.formatVeryHighSeverityCount.outputs.highSeverityCount }}"  
 
-  
+    - name: Display VV Code
+      id: displayVVCode
+      run: |
+        echo "Formatted Very High Count = ${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }}"
+        echo "Formatted High Count = ${{ steps.formatVeryHighSeverityCount.outputs.highSeverityCount }}"
+        mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
+        
+       # Use the output from the `open_vvcode_count` step
+    - name: Generate the Vera code count badge SVG image
+      uses: emibcn/badge-action@v1
+      id: vvbadge
+      with:
+        label: 'Vera Code Count'
+        status: Very High:${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }},High:${{ steps.formatVeryHighSeverityCount.outputs.highSeverityCount }}
+        color: '${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityColor }},${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityColor }}'
+        path: ${{ env.VV_BADGE_PATH }}
+
