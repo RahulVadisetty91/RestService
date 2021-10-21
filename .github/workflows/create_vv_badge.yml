@@ -25,8 +25,8 @@ jobs:
         export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq -r '.[]."Severity 5"'`
         echo "Very High Count = ${veryHighSeverity}"
         echo "High Count = ${highSeverity}"
-        echo "##[set-output name=veryHighSeverity;]'${veryHighSeverity}'"
-        echo "##[set-output name=highSeverity;]'${highSeverity}'"
+        echo "##[set-output name=veryHighSeverity;]${veryHighSeverity}"
+        echo "##[set-output name=highSeverity;]${highSeverity}"
         
     - name: Format a Vera code Severity Count
       id: formatVeryHighSeverityCount
@@ -34,27 +34,26 @@ jobs:
         echo "::set-output name=highSeverityCount::0"
         
         
-        if [[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity}}=='null' ]]; then
+        if [[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity}}>0 ]]; then
           echo "1.0."
-          echo "::set-output name=veryHighSeverityCount::0"
-          echo "::set-output name=veryHighSeverityColor::green"
-        else
           echo "::set-output name=veryHighSeverityCount::${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
           echo "::set-output name=veryHighSeverityColor::red"
+        else
+          echo "1.1."
+          echo "::set-output name=veryHighSeverityCount::0"
+          echo "::set-output name=veryHighSeverityColor::green"
         fi
        
-        if [[ ${{ steps.open_vvcode_count.outputs.highSeverity}}=='null' ]]; then
+        if [[ ${{ steps.open_vvcode_count.outputs.highSeverity}}>0 ]]; then
           echo "2.0.."
-          echo "::set-output name=highSeverityCount::0"
-          echo "::set-output name=highSeverityColor::green"
-         else
-          echo "2.1.."
           echo "::set-output name=highSeverityCount::${{ steps.open_vvcode_count.outputs.highSeverity }}"
           echo "::set-output name=highSeverityColor::red"
+          
+         else
+          echo "2.1.."
+          echo "::set-output name=highSeverityCount::0"
+          echo "::set-output name=highSeverityColor::green"
         fi  
-        
-        echo "Formatted Very High Count = ${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }}"
-        echo "Formatted High Count = ${{ steps.formatVeryHighSeverityCount.outputs.highSeverityCount }}"  
 
     - name: Display VV Code
       id: displayVVCode
