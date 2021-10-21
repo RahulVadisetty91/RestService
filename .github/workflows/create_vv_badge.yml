@@ -43,6 +43,8 @@ jobs:
       run: |
         echo "::set-output name=highSeverityCount::High:0"
         
+        if [ -z "${{ steps.open_vvcode_count.outputs.highSeverity }}" ]; then echo "NULL"; else echo "Not NULL"; fi
+        
         if [[ ${{ steps.open_vvcode_count.outputs.highSeverity }}!=null ]]; then
           echo "2.0.."
           echo "::set-output name=highSeverityCount::High:${{ steps.open_vvcode_count.outputs.highSeverity }}"
