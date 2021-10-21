@@ -30,6 +30,7 @@ jobs:
         
     - name: Format a Vera code Severity Count
       id: formatVeryHighSeverityCount
+      if: ${{ false }}
       run: |
         if [[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity}} > 0 ]]; then
           echo "1.0."
@@ -55,8 +56,12 @@ jobs:
     - name: Display VV Code
       id: displayVVCode
       run: |
-        echo "Formatted Very High Count = ${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }}"
-        echo "Formatted High Count = ${{ steps.formatVeryHighSeverityCount.outputs.highSeverityCount }}"
+        echo "Formatted Very High Count = ${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
+        echo "Formatted High Count = ${{ steps.open_vvcode_count.outputs.highSeverity }}"
+        export VHColor=`[ ${{ steps.open_vvcode_count.outputs.veryHighSeverity }} -eq 0 ] && echo "green" || echo "red"`
+        export HColor=`[ ${{ steps.open_vvcode_count.outputs.highSeverity }} -eq 0 ] && echo "green" || echo "red"`
+        echo "##[set-output name=veryHighSeverityColor;]${VHColor}"
+        echo "##[set-output name=highSeverityColor;]${HColor}"
         mkdir -p "${{ env.VV_BADGE_PATH }}%/*"
         
        # Use the output from the `open_vvcode_count` step
@@ -65,7 +70,7 @@ jobs:
       id: vvbadge
       with:
         label: 'Vera Code Count'
-        status: Very High:${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityCount }},High:${{ steps.formatVeryHighSeverityCount.outputs.highSeverityCount }}
-        color: '${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityColor }},${{ steps.formatVeryHighSeverityCount.outputs.veryHighSeverityColor }}'
+        status: Very High:${{ steps.open_vvcode_count.outputs.veryHighSeverity }},High:${{ steps.open_vvcode_count.outputs.highSeverity }}
+        color: '${{ steps.displayVVCode.outputs.veryHighSeverityColor }},${{ steps.displayVVCode.outputs.highSeverityColor }}'
         path: ${{ env.VV_BADGE_PATH }}
 
