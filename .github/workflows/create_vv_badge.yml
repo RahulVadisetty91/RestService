@@ -25,18 +25,20 @@ jobs:
         export veryHighSeverity=`echo ${VV_ISSUE_COUNT} | jq '.[]."Severity 5"'`
         echo "Very High Count = ${veryHighSeverity}"
         echo "High Count = ${highSeverity}"
+        echo "##[set-output name=veryHighSeverity;]${veryHighSeverity}"
+        echo "##[set-output name=highSeverity;]${highSeverity}"
         
     - name: Format a Vera code Severity Count
       id: formatVVBadge
       run: |
         echo "::set-output name=veryHighSeverityCount::Very High:0"
         echo "::set-output name=highSeverityCount::High:0"
-        if [[ "${{ steps.open_vvcode_count.outputs.veryHighSeverity }}" != empty ]]; then
+        if [[ "${{ steps.open_vvcode_count.outputs.veryHighSeverity }}" != null ]]; then
           echo "1.."
           echo "::set-output name=veryHighSeverityCount::Very High:${{ steps.open_vvcode_count.outputs.veryHighSeverity }}"
         fi
         
-        if [[ "${{ steps.open_vvcode_count.outputs.highSeverity }}" !=empty ]]; then
+        if [[ "${{ steps.open_vvcode_count.outputs.highSeverity }}" !=null ]]; then
           echo "2.."
           echo "::set-output name=highSeverityCount::High:${{ steps.open_vvcode_count.outputs.highSeverity }}"
         fi
