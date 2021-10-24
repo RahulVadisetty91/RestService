@@ -1,4 +1,8 @@
-on: [push, pull_request]
+name: CheckStyle
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   checkstyle_job:
