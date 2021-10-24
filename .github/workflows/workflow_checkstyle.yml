@@ -1,5 +1,7 @@
-on: pull_request
-
+on:
+  pull_request:
+    types: [synchronize, opened, reopened, edited]
+    
 jobs:
   checkstyle_job:
     runs-on: ubuntu-latest
