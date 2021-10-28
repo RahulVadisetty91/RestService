@@ -1,0 +1,23 @@
+#Template Version 1.0.0
+
+name: Publish to Artifactory
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      token: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: "Get version"
+        if: github.event.inputs.version != null
+        run: |
+          echo VERSION=${{ github.event.inputs.version }} >> $GITHUB_ENV
+      
+      - name: Write Version Number
+        run: echo "version=\"${VERSION}\""
+     
