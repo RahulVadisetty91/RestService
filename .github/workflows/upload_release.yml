@@ -4,7 +4,7 @@ name: Publish to Artifactory
 
 on:
   release:
-    types: [published]
+    types: [published,edited]
 
 jobs:
   publish:
