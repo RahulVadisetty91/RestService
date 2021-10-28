@@ -14,10 +14,9 @@ jobs:
 
     steps:
       - name: "Get version"
-        if: github.event.inputs.version != null
         run: |
-          echo VERSION=${{ github.event.inputs.version }} >> $GITHUB_ENV
+          echo TAG_NAME=${{ github.event.release.tag_name }} 
       
       - name: Write Version Number
-        run: echo "version=\"${VERSION}\""
+        run: echo "TAG NAME=\"${TAG_NAME}\""
      
