@@ -13,6 +13,6 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         token: ${{ secrets.GITHUB_TOKEN }}
         reporter: 'github-pr-check'
-        tool_name: 'testtool'
+        tool_name: 'reviewdog'
         fail_on_error: true
         level: error
