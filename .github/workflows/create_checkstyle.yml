@@ -1,4 +1,4 @@
-on: [push, pull_request, pull_request_target]
+on: pull_request
     
 jobs:
   checkstyle_job:
@@ -10,8 +10,5 @@ jobs:
     - name: Run check style
       uses: nikitasavinov/checkstyle-action@master
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
         reporter: 'github-pr-check'
-        tool_name: 'reviewdog'
-        fail_on_error: true
-        level: 'error'
