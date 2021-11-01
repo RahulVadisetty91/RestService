@@ -24,8 +24,5 @@ jobs:
           latest: true
           fileName: "v11.02.04.zip"
           out-file-path: "releaseAsset"
-          
-      - name: Display download directory
-        run: ls -R
-          
+ 
         
