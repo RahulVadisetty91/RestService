@@ -24,3 +24,13 @@ jobs:
     - name: Display download directory
       run: | 
           ls -R
+          
+    - name: publish to artifactory
+      uses: advancedcsg-open/action-jfrog-cli@master
+      with:
+        url: 'https://itsme.jfrog.io/'
+        credentials type: 'username'
+        user: 'tilakkalyan@gmail.com'
+        password: 'AP6ijSZxh96vs87ZLeu4RZuQREJ'
+        args: u "release-asset.zip" "/artifactory/default-maven-virtual/" 
+
