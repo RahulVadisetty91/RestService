@@ -18,7 +18,8 @@ jobs:
       with:
         repository: "${{ github.repository }}"
         latest: true
-        fileName: "Asset..zip"
+        zipBall: true
+        fileName: "v11.02.06.zip"
         
     - name: Disply download directory
       run: 
