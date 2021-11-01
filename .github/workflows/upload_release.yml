@@ -20,9 +20,8 @@ jobs:
       - name: Write Version Number
       - uses: robinraju/release-downloader@v1.2
         with:
-          repository: "${{ github.repository }}"
+          repository: ${{ github.repository }}
           latest: true
           fileName: "v11.02.04.zip"
           out-file-path: "releaseAsset"
- 
-        
+
