@@ -17,8 +17,8 @@ jobs:
     - uses: dsaltares/fetch-gh-release-asset@master
       with:
         repo: "${{ github.repository }}"
-        version: "tags/v11.02.09"
-        file: "v11.02.09.zip"
+        version: "tags/v11.02.10"
+        file: "v11.02.10.zip"
         target: "subdir/release-asset.zip"
         token: ${{ secrets.GITHUB_TOKEN }} 
     
