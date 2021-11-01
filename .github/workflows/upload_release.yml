@@ -23,3 +23,10 @@ jobs:
           repository: "${{ github.repository }}"
           latest: true
           fileName: "v11.02.04.zip"
+          out-file-path: "releaseAsset"
+          
+      - name: Print Release asset details
+      - run: |
+            ls 
+          
+        
