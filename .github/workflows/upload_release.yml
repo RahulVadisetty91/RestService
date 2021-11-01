@@ -18,5 +18,8 @@ jobs:
           echo TAG_NAME=${{ github.event.release.tag_name }} 
       
       - name: Write Version Number
-        run: echo "TAG NAME=\"${TAG_NAME}\""
-     
+      - uses: robinraju/release-downloader@v1.2
+        with:
+          repository: ""
+          latest: true
+          fileName: "v11.02.04.zip"
