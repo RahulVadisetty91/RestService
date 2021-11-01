@@ -20,7 +20,8 @@ jobs:
         latest: true
         zipBall: true
         fileName: "v11.02.06.zip"
+        token: ${env.GIT_TOKEN}
         
-    - name: Disply download directory
+    - name: Display download directory
       run: 
        echo "GIT Token = ${env.GIT_TOKEN}"
