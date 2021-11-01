@@ -26,7 +26,6 @@ jobs:
           out-file-path: "releaseAsset"
           
       - name: Display download directory
-        run: |
-          ls
+        run: ls -R
           
         
