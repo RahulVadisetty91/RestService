@@ -13,15 +13,10 @@ jobs:
       token: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - name: Get Version Number
+      - name: "Get version"
         run: |
           echo TAG_NAME=${{ github.event.release.tag_name }} 
       
       - name: Write Version Number
-      - uses: robinraju/release-downloader@v1.2
-        with:
-          repository: ${{ github.repository }}
-          latest: true
-          fileName: "v11.02.04.zip"
-          out-file-path: "releaseAsset"
-
+        run: echo "TAG NAME=\"${TAG_NAME}\""
+     
