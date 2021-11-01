@@ -20,7 +20,8 @@ jobs:
       - name: Write Version Number
       - uses: robinraju/release-downloader@v1.2
         with:
-         repository: ${{ github.repository }}
-         latest: true
-         fileName: "foo.zip"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          latest: true
+          fileName: "foo.zip"
      
