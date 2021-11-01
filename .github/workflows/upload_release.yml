@@ -7,21 +7,15 @@ on:
     types: [published,edited]
 
 jobs:
-  publish:
+  test:
     runs-on: ubuntu-latest
     env:
-      token: ${{ secrets.GITHUB_TOKEN }}
-
+        GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    name: A job to test this action
     steps:
-      - name: "Get version"
-        run: |
-          echo TAG_NAME=${{ github.event.release.tag_name }} 
-      
-      - name: Write Version Number
-      - uses: robinraju/release-downloader@v1.2
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          latest: true
-          fileName: "foo.zip"
-     
+    - uses: robinraju/release-downloader@v1.2
+      with:
+        repository: "${{ github.repository }}"
+        latest: true
+        fileName: "Asset..zip"
