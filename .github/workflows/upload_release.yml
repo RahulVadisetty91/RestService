@@ -23,7 +23,7 @@ jobs:
       with:
         repo: "${{ github.repository }}"
         file: "RUNNING.txt"
-        target: "sample.txt"
+        target: "restServiceSample.txt"
         token: ${{ secrets.GITHUB_TOKEN }} 
     
     - name: Display download directory
@@ -33,7 +33,7 @@ jobs:
     - name: Upoad Release asset to JFrog
       id: uploadToJFrog
       run: |
-        export jfrogStatus=`curl -u "tilakkalyan@gmail.com:Itsme148!" -X PUT -T sample.txt -s https://itsme.jfrog.io/artifactory/default-maven-virtual/sample.txt`
+        export jfrogStatus=`curl -u "tilakkalyan@gmail.com:Itsme148!" -X PUT -T restServiceSample.txt -s https://itsme.jfrog.io/artifactory/default-maven-virtual/restServiceSample.txt`
         echo "JFrog Status= ${jfrogStatus}"
         
         
