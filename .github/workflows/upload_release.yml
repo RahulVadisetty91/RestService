@@ -19,3 +19,7 @@ jobs:
         repository: "${{ github.repository }}"
         latest: true
         fileName: "Asset..zip"
+        
+    - name: Disply download directory
+      run: 
+       echo "GIT Token = ${env.GIT_TOKEN}"
