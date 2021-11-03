@@ -1,0 +1,16 @@
+on: push
+
+jobs:
+  checkstyle_job:
+    runs-on: ubuntu-latest
+    env:
+        GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    name: Checkstyle job
+    steps:
+    - name: Update GitHub Profile README
+      uses: theboi/github-update-readme@v1.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        header: "Hey, I'm badge creator!!"
+        subhead: "Badges"
