@@ -18,5 +18,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        header: '${{ env.BUILD_BADGE }}<br/>${{ env.PR_COUNT_BADGE }}'  
+        header: '${{ env.BUILD_BADGE }}<br/>${{ env.PR_COUNT_BADGE }}<br/>${{ env.PR_COUNT_BADGE }}<br/>${{ env.VV_COUNT_BADGE }}<br/>${{ env.DEPENDENCY_BOT_BADGE }}<br/>${{ env.CODE_COVERAGE_BADGE }}<br/>${{ env.RELEASE_BADGE }}<br/>'  
         repoCount: 0
