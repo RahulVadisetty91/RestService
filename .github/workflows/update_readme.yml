@@ -12,5 +12,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        header: "Hey, I'm badge creator!!"
+        header: "![Build-Java Status](https://github.com/RahulVadisetty91/RestService/actions/workflows/build.yml/badge.svg?branch=develop/pipeline)"
         subhead: "Badges"
