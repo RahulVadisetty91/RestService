@@ -1,4 +1,3 @@
-
 ### `header`
 
 **Required** The header of your README.md. Markdown supported.
@@ -6,6 +5,10 @@
 ### `subhead`
 
 The subheader of your README.md. Markdown supported. Default `""`.
+
+### `footer`
+
+The footer of your README.md. Markdown supported. Default `""`.
 
 ![Build-Java Status](https://github.com/RahulVadisetty91/RestService/actions/workflows/build.yml/badge.svg?branch=develop/pipeline)
 
