@@ -5,6 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
         GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BUILD_BADGE: "![Build-Java Status](https://github.com/RahulVadisetty91/RestService/actions/workflows/build.yml/badge.svg?branch=develop/pipeline)"
+        PR_COUNT_BADGE: '<img alt="GitHub pull requests" src=".github/badges/open-pr-count.svg">'
+        VV_COUNT_BADGE: '<img alt="GitHub pull requests" src=".github/badges/vv-code-count.svg">'
+        DEPENDENCY_BOT_BADGE: '<img alt="Dependencies" src=".github/badges/depend-badge.svg">'
+        CODE_COVERAGE_BADGE: '<img alt="Code Coverage" src=".github/badges/jacoco-code-coverage.svg">'
+        RELEASE_BADGE: '<a href="https://github.com/RahulVadisetty91/RestService/releases"><img alt="Issues" src=".github/badges/release.svg"></a>'
     name: Checkstyle job
     steps:
     - name: Update GitHub Profile README
@@ -12,6 +18,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        header: "![Build-Java Status](https://github.com/RahulVadisetty91/RestService/actions/workflows/build.yml/badge.svg?branch=develop/pipeline)"
-        subhead: "Badges"
+        header: '${{ env.BUILD_BADGE }}<br/>${{ env.PR_COUNT_BADGE }}'  
         repoCount: 0
