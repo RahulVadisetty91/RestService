@@ -1,2 +1,2 @@
-<!-- include octocat/Spoon-Knife/README.md -->
+<!-- include output/include.md -->
 Date from DummyFile.md
