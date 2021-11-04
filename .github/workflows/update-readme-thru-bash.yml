@@ -16,9 +16,20 @@ jobs:
            sed -i 's/Tag.*Vag/Tag TextTextText Vag/g' DummyFile.txt
            cat DummyFile.txt
 
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+      
     - name: Commit Readme file
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add DummyFile.txt
         git commit -m "Updated badge informaion !!!" || true
+    
+    - name: Push badge commit
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ steps.extract_branch.outputs.branch }}
