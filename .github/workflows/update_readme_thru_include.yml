@@ -21,6 +21,6 @@ jobs:
           GLOBAL_TEMPLATE_REPOSITORY: ${{ github.repository }}
           files: |
             DummyFile.md
-            include.md
+            include.md=output/include.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
