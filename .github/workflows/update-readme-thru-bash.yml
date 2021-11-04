@@ -13,3 +13,5 @@ jobs:
     - name: Run ls
       run: |
            ls -r
+           sed -i 's/Tag.*Vag/Tag TextTextText Vag/g' README.md
+           cat README.md
