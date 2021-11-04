@@ -1,3 +1,4 @@
-Data from Include.md file
+<!-- START [code] include.md -->
+<!-- END [code] include.md -->
 
-Date from DummyFile.md
+Data from DummyFile.md
