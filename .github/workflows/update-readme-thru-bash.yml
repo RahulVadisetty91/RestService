@@ -1,0 +1,15 @@
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: A job to test this action
+    steps:
+    - uses: actions/checkout@v1
+    - uses: fregante/setup-git-token@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Run ls
+      run: |
+           ls -r
