@@ -1,4 +1,4 @@
-name: Update READMe thru Dynamic Template
+name: Update README.md thru Dynamic Template
 
 on: [push]
 
