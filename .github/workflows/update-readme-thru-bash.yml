@@ -15,3 +15,10 @@ jobs:
            ls -r
            sed -i 's/Tag.*Vag/Tag TextTextText Vag/g' DummyFile.txt
            cat DummyFile.txt
+
+    - name: Commit Readme file
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add DummyFile.txt
+        git commit -m "Updated badge informaion !!!" || true
