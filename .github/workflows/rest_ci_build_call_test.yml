@@ -6,6 +6,6 @@ jobs:
    uses: convictional/trigger-workflow-and-wait@master
    with:
     owner:  RahulVadisetty91
-    repo:  Reusable_Repository/workflow_templates/java-cicd-workflow
+    repo:  Reusable_Repository
     github_token: ${{ secrets.G_ACCESS_TOKEN  }}
     workflow_file_name: build.yml
