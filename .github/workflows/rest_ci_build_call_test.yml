@@ -3,4 +3,4 @@ on: [push]
 
 jobs:
   rest_ci_build_call_test:
-   uses:   RahulVadisetty91/RestService/.github/workflows/build.yml@master
+   uses:   RahulVadisetty91/Reusable_Repository/workflow_templates/java-cicd-workflow/workflows/build.yml@master
