@@ -8,5 +8,5 @@ jobs:
     owner:  RahulVadisetty91
     repo:  Reusable_Repository
     github_token: ${{ secrets.G_ACCESS_TOKEN }}
-    workflow_file_name: build.yml
+    workflow_file_name: .github/workflows/build.yml
     ref: main
