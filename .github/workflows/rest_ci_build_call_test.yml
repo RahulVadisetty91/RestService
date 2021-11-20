@@ -7,5 +7,5 @@ jobs:
    with:
     owner:  RahulVadisetty91
     repo:  Reusable_Repository
-    github_token: ${{ secrets.G_ACCESS_TOKEN  }}
+    github_token: ${{ secrets.G_ACCESS_TOKEN }}
     workflow_file_name: build.yml
