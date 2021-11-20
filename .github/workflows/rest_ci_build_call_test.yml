@@ -1,0 +1,6 @@
+name: Reuse Workflow Rest CI Build
+on: [push]
+
+jobs:
+  rest_ci_build_call_test:
+   uses:  RestService/.github/workflows/build.yml@v11.02.15
