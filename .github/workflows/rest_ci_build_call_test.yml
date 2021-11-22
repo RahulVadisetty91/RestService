@@ -9,5 +9,5 @@ jobs:
    uses:  benc-uk/workflow-dispatch@v1
    with:
     workflow: build.yml
-    repo:  RahulVadisetty91/Reusable_Repository/workflow_templates/java-cicd-workflow/workflows/
+    repo: RahulVadisetty91/Reusable_Repository/workflow_templates/java-cicd-workflow/workflows/
     token: ${{ secrets.PERSONAL_TOKEN }}
