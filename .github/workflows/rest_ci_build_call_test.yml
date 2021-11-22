@@ -1,11 +1,13 @@
 name: Reuse Workflow Rest CI Build
-on: [push]
+on:
+ push:
+ workflow_dispatch:
+ workflow_call:
 
 jobs:
   rest_ci_build_call_test:
-   uses: convictional/trigger-workflow-and-wait@master
+   uses:  Reusable_Repository/workflow_templates/java-cicd-workflow/workflows/build.yml 
    with:
-    owner:  RahulVadisetty91
-    repo:  Reusable_Repository
-    workflow_file_name: build.yml
-    ref: main
+    workflow: Some Workflow
+    repo:  RahulVadisetty91/Reusable_Repository
+    token: ${{ secrets.PERSONAL_TOKEN }}
