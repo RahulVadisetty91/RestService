@@ -6,7 +6,7 @@ on:
 
 jobs:
   rest_ci_build_call_test:
-   uses:  Reusable_Repository/workflow_templates/java-cicd-workflow/workflows/build.yml 
+   uses:  Reusable_Repository/workflow_templates/java-cicd-workflow/workflows/build.yml@master 
    with:
     workflow: Some Workflow
     repo:  RahulVadisetty91/Reusable_Repository
