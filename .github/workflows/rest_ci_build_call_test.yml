@@ -4,7 +4,7 @@ on:
 
 jobs:
   rest_ci_build_call_test:
-   uses:  benc-uk/workflow-dispatch@v1
+   uses:  RahulVadisetty91/RestService
    with:
     workflow: Workflow_test
     repo: RahulVadisetty91/Reusable_Repository
