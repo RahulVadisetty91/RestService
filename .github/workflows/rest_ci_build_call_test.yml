@@ -1,8 +1,6 @@
 name: Reuse Workflow Rest CI Build
 on:
  push:
- workflow_dispatch:
- workflow_call:
 
 jobs:
   rest_ci_build_call_test:
