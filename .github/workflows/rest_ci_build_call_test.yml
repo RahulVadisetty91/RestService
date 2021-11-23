@@ -6,7 +6,7 @@ on:
 
 jobs:
   rest_ci_build_call_test:
-   uses: RahulVadisetty91/Reusable_Repository/tree/main/workflow_templates/java-cicd-workflow/workflows@main
+   uses: RestService/workflow-dispatch@resuable_repo
    with:
     workflow: CI Build
     repo: RahulVadisetty91/Reusable_Repository
