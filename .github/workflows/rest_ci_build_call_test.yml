@@ -8,6 +8,6 @@ jobs:
   rest_ci_build_call_test:
    uses:  RahulVadisetty91/RestService@resuable_repo
    with:
-    workflow: CI Build
+    workflow: build
     repo: RahulVadisetty91/Reusable_Repository
     token: ${{ secrets.PERSONAL_TOKEN }}
