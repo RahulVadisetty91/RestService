@@ -6,6 +6,6 @@ jobs:
   rest_ci_build_call_test:
    uses:  benc-uk/workflow-dispatch@v1
    with:
-    workflow: CI Build
+    workflow: Workflow_test
     repo: RahulVadisetty91/Reusable_Repository
     token: ${{ secrets.PERSONAL_TOKEN }}
